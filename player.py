@@ -1,6 +1,5 @@
 # 이것은 각 상태들을 객체로 구현한 것임.
-
-from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT
+from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN
 import game_world
 
 
@@ -22,6 +21,22 @@ def left_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
 
 
+def up_down(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_UP
+
+
+def up_up(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_UP
+
+
+def down_down(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_DOWN
+
+
+def down_up(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_DOWN
+
+
 def space_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE
 
@@ -29,7 +44,8 @@ def space_down(e):
 def time_out(e):
     return e[0] == 'TIME_OUT'
 
-
+def lets_idle(e):
+    return e[0] == 'LETS_IDLE'
 # time_out = lambda e : e[0] == 'TIME_OUT'
 
 
@@ -37,13 +53,12 @@ class Idle:
 
     @staticmethod
     def enter(player, e):
-        player.dir = 0
-        player.frame = 1
-        if right_down(e) or left_up(e):  # 오른쪽으로 RUN
-            player.dir, player.action = 1, 0
-        elif left_down(e) or right_up(e):  # 왼쪽으로 RUN
-            player.dir, player.action = -1, 0
 
+
+        print('idle_right:')
+        print(player.dir_right)
+        print('idle_left:')
+        print(player.dir_left)
         pass
 
     @staticmethod
@@ -63,10 +78,31 @@ class Run:
 
     @staticmethod
     def enter(player, e):
-        if right_down(e) or left_up(e):  # 오른쪽으로 RUN
-            player.dir, player.face_dir, player.action = 1, 1, 1
-        elif left_down(e) or right_up(e):  # 왼쪽으로 RUN
-            player.dir, player.face_dir, player.action = -1, -1, 0
+        if right_down(e):
+            player.dir_right = 1
+            player.dirX, player.action = 1, 1
+        elif left_down(e):
+            player.dir_left = 1
+            player.dirX, player.action = -1, 1
+
+        elif right_up(e):
+            player.dir_right = 0
+            if player.dir_left == 1:
+                player.dirX, player.action = -1, 1
+        elif left_up(e):
+            player.dir_left = 0
+            if player.dir_right == 1:
+                player.dirX, player.action = 1, 1
+
+        if player.dir_left == 0 and player.dir_right == 0:
+            player.state_machine.handle_event(('LETS_IDLE', 0))
+
+        print('run_right:')
+        print(player.dir_right)
+        print('run_left:')
+        print(player.dir_left)
+
+        pass
 
     @staticmethod
     def exit(player, e):
@@ -75,7 +111,8 @@ class Run:
     @staticmethod
     def do(player):
         player.frame = (player.frame + 1) % 12
-        player.x += player.dir * 3
+        player.x += player.dirX * 3
+        player.y += player.dirY * 3
         pass
 
     @staticmethod
@@ -88,8 +125,10 @@ class StateMachine:
         self.player = player
         self.cur_state = Idle
         self.transitions = {
-            Idle: {space_down: Idle, right_down: Run, left_down: Run, left_up: Run, right_up: Run},
-            Run: {right_down: Idle, left_down: Idle, right_up: Idle, left_up: Idle},
+            Idle: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, up_down: Run, up_up: Run,
+                   down_down: Run, down_up: Run},
+            Run: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, up_down: Run,
+                  up_up: Run, down_down: Run, down_up: Run, lets_idle: Idle}
         }
 
     def start(self):
@@ -114,11 +153,12 @@ class StateMachine:
 
 class Player:
     def __init__(self):
-        self.x, self.y = 50, 430
+        self.x, self.y = 50, 420
         self.frame = 0
-        self.action = 3
-        self.dir = 0
-        self.face_dir = 1
+        self.action = 0
+        self.dirX = 0
+        self.dirY = 0
+        self.dir_left, self.dir_right, self.dir_up, self.dir_down = 0, 0, 0, 0
         self.image = load_image('cycling.png')
         self.state_machine = StateMachine(self)
         self.state_machine.start()
