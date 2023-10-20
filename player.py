@@ -149,6 +149,15 @@ class Run:
         player.frame = (player.frame + 1) % 12
         player.x += player.dirX * 3
         player.y += player.dirY * 3
+        if player.x <= 0 + 32:
+            player.x = 0 + 32
+        if player.x >= 1440 - 74:
+            player.x = 1440 - 74
+        if player.y <= 280:
+            player.y = 280
+        if player.y >= 600:
+            player.y = 600
+
         pass
 
     @staticmethod
