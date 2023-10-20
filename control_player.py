@@ -3,7 +3,7 @@ from pico2d import *
 import game_world
 from player import Player
 from map import Map
-from ladder import Ladder
+from bridge import Bridge
 # Game object class here
 def handle_events():
     global running
@@ -23,12 +23,12 @@ def reset_world():
     global running
     global player
     global map
-    global ladder
+    global bridge
     running = True
     map = Map()
     game_world.add_object(map, 0)
-    ladder = Ladder()
-    game_world.add_object(ladder, 1)
+    bridge = Bridge()
+    game_world.add_object(bridge, 1)
     player = Player()
     game_world.add_object(player, 2)
 def update_world():
