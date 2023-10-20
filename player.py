@@ -44,8 +44,11 @@ def space_down(e):
 def time_out(e):
     return e[0] == 'TIME_OUT'
 
+
 def lets_idle(e):
     return e[0] == 'LETS_IDLE'
+
+
 # time_out = lambda e : e[0] == 'TIME_OUT'
 
 
@@ -55,7 +58,7 @@ class Idle:
     def enter(player, e):
         player.dir_X = 0
         player.dir_y = 0
-        player.dir_left, player.dir_right, player.dir_up,  player.dir_down = 0,0,0,0
+        player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
         print('idle_right:')
         print(player.dir_right)
         print('idle_left:')
@@ -75,7 +78,7 @@ class Idle:
         player.image.clip_draw(player.frame * 91, player.action * 79, 90, 79, player.x, player.y, 70, 70)
 
 
-#네방향 모두를 스무스하게 움직이게 하려면 경우의수를 따져봐야 한다.
+# 네방향 모두를 스무스하게 움직이게 하려면 경우의수를 따져봐야 한다.
 class Run:
 
     @staticmethod
