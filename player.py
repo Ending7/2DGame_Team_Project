@@ -84,6 +84,12 @@ class Run:
         elif left_down(e):
             player.dir_left = 1
             player.dirX, player.action = -1, 1
+        elif up_down(e):
+            player.dir_up = 1
+            player.dirY, player.action = 1, 1
+        elif down_down(e):
+            player.dir_down = 1
+            player.dirY, player.action = -1, 1
 
         elif right_up(e):
             player.dir_right = 0
@@ -93,15 +99,20 @@ class Run:
             player.dir_left = 0
             if player.dir_right == 1:
                 player.dirX, player.action = 1, 1
+        elif up_up(e):
+            player.dir_up = 0
+            if player.dir_down == 1:
+                player.dirY, player.action = -1, 1
+        elif down_up(e):
+            player.dir_down = 0
+            if player.dir_up == 1:
+                player.dirY, player.action = 1, 1
 
-        if player.dir_left == 0 and player.dir_right == 0:
+        if player.dir_left == 0 and player.dir_right == 0 and player.dir_up == 0 and player.dir_down == 0:
             player.state_machine.handle_event(('LETS_IDLE', 0))
 
-        print('run_right:')
-        print(player.dir_right)
-        print('run_left:')
-        print(player.dir_left)
-
+        print('run_right, left:', player.dir_right, player.dir_left)
+        print('run_up, down:', player.dir_up, player.dir_down)
         pass
 
     @staticmethod
