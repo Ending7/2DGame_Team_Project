@@ -4,6 +4,8 @@ import game_world
 from player import Player
 from map import Map
 from bridge import Bridge
+
+
 # Game object class here
 def handle_events():
     global running
@@ -18,7 +20,8 @@ def handle_events():
             player.handle_event(event)
             map.handle_event(event)
 
-def reset_world():
+
+def init():
     global running
     global player
     global map
@@ -30,23 +33,25 @@ def reset_world():
     game_world.add_object(bridge, 1)
     player = Player()
     game_world.add_object(player, 2)
-def update_world():
+
+
+def update():
     game_world.update()
 
 
-def render_world():
+def draw():
     clear_canvas()
     game_world.render()
     update_canvas()
 
 
-open_canvas(1400,800)
-reset_world()
+open_canvas(1400, 800)
+init()
 # game loop
 while running:
     handle_events()
-    update_world()
-    render_world()
+    update()
+    draw()
     delay(0.01)
 # finalization code
 close_canvas()
