@@ -44,14 +44,3 @@ def draw():
     game_world.render()
     update_canvas()
 
-
-open_canvas(1400, 800)
-init()
-# game loop
-while running:
-    handle_events()
-    update()
-    draw()
-    delay(0.01)
-# finalization code
-close_canvas()
