@@ -1,13 +1,12 @@
 from pico2d import get_events, load_image, clear_canvas, update_canvas
-from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1, SDLK_2
+from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1
 
 import game_framework
-import howtoplay_mode
-import play_mode
+import title_mode
 
 def init():
     global image
-    image = load_image('title.png')
+    image = load_image('howtoplay.png')
 
 def finish():
     pass
@@ -26,8 +25,4 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
-        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_1):
-            game_framework.change_mode(play_mode)
-        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_2):
-            game_framework.change_mode(howtoplay_mode)
+            game_framework.change_mode(title_mode)
