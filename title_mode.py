@@ -1,9 +1,11 @@
 from pico2d import get_events, load_image, clear_canvas, update_canvas
-from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1, SDLK_2
+from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1, SDLK_2, SDLK_3
 
 import game_framework
 import howtoplay_mode
 import play_mode
+import rankingboard_mode
+
 
 def init():
     global image
@@ -31,3 +33,5 @@ def handle_events():
             game_framework.change_mode(play_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_2):
             game_framework.change_mode(howtoplay_mode)
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_3):
+            game_framework.change_mode(rankingboard_mode)
