@@ -29,6 +29,11 @@ def init():
     global bridge
     global player
     global keyexplain
+    global checktime
+    global timelock
+
+    timelock = False
+    checktime = get_time()
 
     map = Map()
     game_world.add_object(map, 0)
@@ -53,6 +58,10 @@ def draw():
     update_canvas()
 
 def pause():
+    global pausetime
+    global checktime
+    global timelock
+
     player.dirX = 0
     player.dirY = 0
     player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
@@ -60,5 +69,17 @@ def pause():
     map.dirY = 0
     map.dir_left, map.dir_right = 0, 0
 
+    timelock = True
+    pausetime = get_time()
+    pass
+
 def resume():
+    global pausetime
+    global resumetime
+    global checktime
+    global timelock
+
+    timelock = False
+    resumetime = get_time()
+    checktime += resumetime - pausetime
     pass

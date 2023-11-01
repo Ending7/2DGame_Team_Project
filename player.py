@@ -203,7 +203,6 @@ class StateMachine:
 
 class Player:
     def __init__(self):
-        self.checktime = get_time()
         self.x, self.y = 50, 420
         self.frame = 0
         self.action = 0
@@ -223,5 +222,8 @@ class Player:
 
     def draw(self):
         self.state_machine.draw()
-        self.font.draw(1400 / 2 - 100, 780, f'(Time: {get_time()-self.checktime:.2f})', (255, 0, 0))
+        if play_mode.timelock == False:
+            self.font.draw(1400 / 2 - 100, 780, f'(Time: {get_time()-play_mode.checktime:.2f})', (255, 0, 0))
+        elif play_mode.timelock == True:
+            self.font.draw(1400 / 2 - 100, 780, f'(Time: {play_mode.pausetime - play_mode.checktime:.2f})', (255, 0, 0))
         pass
