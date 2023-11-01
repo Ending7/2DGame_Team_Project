@@ -1,0 +1,4 @@
+main모듈에 init, handle, update, draw함수가 while문 안에서 실행되었다.
+그 결과, 원하는 mode의 init, handle, update, draw함수를 main모듈에서 실행할 수 있었다.
+그런데 main모듈의 while문을 framework에 만들어놓고, 앞으로 프레임워크를 불러다가 mode를 설정해 주면
+똑같이 작동한다.

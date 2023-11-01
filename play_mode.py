@@ -35,6 +35,10 @@ def init():
     game_world.add_object(player, 2)
 
 
+def finish():
+    pass
+
+
 def update():
     game_world.update()
 
@@ -43,4 +47,3 @@ def draw():
     clear_canvas()
     game_world.render()
     update_canvas()
-
