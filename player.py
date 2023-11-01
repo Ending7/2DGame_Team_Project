@@ -1,6 +1,8 @@
 # 이것은 각 상태들을 객체로 구현한 것임.
-from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN
+from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, load_font, \
+    get_time
 import game_world
+import play_mode
 
 
 # state event check
@@ -201,6 +203,7 @@ class StateMachine:
 
 class Player:
     def __init__(self):
+        self.checktime = get_time()
         self.x, self.y = 50, 420
         self.frame = 0
         self.action = 0
@@ -208,6 +211,7 @@ class Player:
         self.dirY = 0
         self.dir_left, self.dir_right, self.dir_up, self.dir_down = 0, 0, 0, 0
         self.image = load_image('cycling.png')
+        self.font = load_font('ENCR10B.TTF', 32)
         self.state_machine = StateMachine(self)
         self.state_machine.start()
 
@@ -219,4 +223,5 @@ class Player:
 
     def draw(self):
         self.state_machine.draw()
+        self.font.draw(1400 / 2 - 100, 780, f'(Time: {get_time()-self.checktime:.2f})', (255, 0, 0))
         pass
