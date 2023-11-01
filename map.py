@@ -72,7 +72,7 @@ class Move:
 
     @staticmethod
     def do(map):
-        map.x -= map.dirX * 1
+        map.x -= map.dirX * 1.0
         if map.x >= 45:
             map.x = 45
         elif map.x <= -500:

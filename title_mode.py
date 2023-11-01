@@ -35,3 +35,9 @@ def handle_events():
             game_framework.change_mode(howtoplay_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_3):
             game_framework.change_mode(rankingboard_mode)
+
+def pause():
+    pass
+
+def resume():
+    pass

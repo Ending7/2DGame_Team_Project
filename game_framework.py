@@ -50,6 +50,7 @@ def run(start_mode):
         stack[-1].update()
         stack[-1].draw()
 
+
     # repeatedly delete the top of the stack
     while (len(stack) > 0):
         stack[-1].finish()

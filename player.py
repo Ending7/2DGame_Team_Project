@@ -150,8 +150,8 @@ class Run:
     @staticmethod
     def do(player):
         player.frame = (player.frame + 1) % 12
-        player.x += player.dirX * 3
-        player.y += player.dirY * 3
+        player.x += player.dirX * 3.0
+        player.y += player.dirY * 3.0
         if player.x <= 0 + 32:
             player.x = 0 + 32
         if player.x >= 1440 - 74:
