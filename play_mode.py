@@ -7,8 +7,8 @@ from player import Player
 from map import Map
 from bridge import Bridge
 from keyexplain import Keyexplain
+from staminabar import Staminabar
 
-# Game object class here
 def handle_events():
 
     events = get_events()
@@ -29,6 +29,7 @@ def init():
     global bridge
     global player
     global keyexplain
+    global staminabar
     global checktime
     global timelock
 
@@ -43,13 +44,23 @@ def init():
     game_world.add_object(player, 2)
     keyexplain = Keyexplain()
     game_world.add_object(keyexplain, 3)
+    staminabar = Staminabar()
+    game_world.add_object(staminabar, 4)
 
 def finish():
     game_world.clear()
     pass
 
 def update():
+    global playerx
+    global playery
+    global playerstamina
     game_world.update()
+
+    playerx = player.x
+    playery = player.y
+    playerstamina = player.stamina
+
     delay(0.01)
 
 def draw():
@@ -65,6 +76,7 @@ def pause():
     player.dirX = 0
     player.dirY = 0
     player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
+    player.dir_lshift = 0
     map.dirX = 0
     map.dirY = 0
     map.dir_left, map.dir_right = 0, 0

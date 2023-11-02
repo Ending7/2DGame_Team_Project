@@ -19,7 +19,7 @@ def handle_events():
 def init():
     global pannel
     pannel = Pannel()
-    game_world.add_object(pannel, 4)
+    game_world.add_object(pannel, 5)
 
 
 def update():

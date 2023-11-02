@@ -1,6 +1,8 @@
 # 이것은 각 상태들을 객체로 구현한 것임.
 from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, load_font, \
-    get_time
+    get_time, SDLK_LSHIFT
+
+
 import game_world
 import play_mode
 
@@ -42,6 +44,11 @@ def down_up(e):
 def space_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE
 
+def lshift_down(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_LSHIFT
+
+def lshift_up(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LSHIFT
 
 def time_out(e):
     return e[0] == 'TIME_OUT'
@@ -60,6 +67,7 @@ class Idle:
     def enter(player, e):
         player.dir_X = 0
         player.dir_y = 0
+        player.dir_shift = 0
         player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
         print('idle_right:')
         print(player.dir_right)
@@ -74,6 +82,9 @@ class Idle:
     @staticmethod
     def do(player):
         player.frame = player.frame
+        if player.stamina < 65 and play_mode.timelock == False:
+            player.stamina += 0.2
+
 
     @staticmethod
     def draw(player):
@@ -97,6 +108,8 @@ class Run:
         elif down_down(e):
             player.dir_down = 1
             player.dirY, player.action = -1, 1
+        elif lshift_down(e):
+            player.dir_shift = 1
 
         elif right_up(e):
             player.dir_right = 0
@@ -107,7 +120,6 @@ class Run:
                 player.dirX, player.dirY, player.action = 0, 1, 1
             elif player.dir_down == 1:
                 player.dirX, player.dirY, player.action = 0, -1, 1
-
         elif left_up(e):
             player.dir_left = 0
             player.dirX = 0
@@ -117,7 +129,6 @@ class Run:
                 player.dirX, player.dirY, player.action = 0, 1, 1
             elif player.dir_down == 1:
                 player.dirX, player.dirY, player.action = 0, -1, 1
-
         elif up_up(e):
             player.dir_up = 0
             player.dirY = 0
@@ -127,7 +138,6 @@ class Run:
                 player.dirX, player.dirY, player.action = 1, 0, 1
             elif player.dir_left == 1:
                 player.dirX, player.dirY, player.action = -1, 0, 1
-
         elif down_up(e):
             player.dir_down = 0
             player.dirY = 0
@@ -137,6 +147,8 @@ class Run:
                 player.dirX, player.dirY, player.action = 1, 0, 1
             elif player.dir_left == 1:
                 player.dirX, player.dirY, player.action = -1, 0, 1
+        elif lshift_up(e):
+            player.dir_shift = 0
 
         if player.dir_left == 0 and player.dir_right == 0 and player.dir_up == 0 and player.dir_down == 0:
             player.state_machine.handle_event(('LETS_IDLE', 0))
@@ -151,9 +163,18 @@ class Run:
 
     @staticmethod
     def do(player):
+        if player.dir_shift == 1 and play_mode.timelock == False:
+            player.speed = 2
+            if player.stamina > 0:
+                player.stamina -= 1.0
+        elif player.dir_shift == 0 and play_mode.timelock == False:
+            player.speed = 1
+            if player.stamina < 65:
+                player.stamina += 0.2
+
         player.frame = (player.frame + 1) % 12
-        player.x += player.dirX * 3.0
-        player.y += player.dirY * 3.0
+        player.x += player.dirX * 3.0 * player.speed
+        player.y += player.dirY * 3.0 * player.speed
         if player.x <= 0 + 32:
             player.x = 0 + 32
         if player.x >= 1440 - 74:
@@ -178,7 +199,7 @@ class StateMachine:
             Idle: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, up_down: Run, up_up: Run,
                    down_down: Run, down_up: Run},
             Run: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, up_down: Run,
-                  up_up: Run, down_down: Run, down_up: Run, lets_idle: Idle}
+                  up_up: Run, down_down: Run, down_up: Run, lshift_down: Run, lshift_up: Run, lets_idle: Idle}
         }
 
     def start(self):
@@ -208,7 +229,9 @@ class Player:
         self.action = 0
         self.dirX = 0
         self.dirY = 0
-        self.dir_left, self.dir_right, self.dir_up, self.dir_down = 0, 0, 0, 0
+        self.speed = 1
+        self.stamina = 65
+        self.dir_left, self.dir_right, self.dir_up, self.dir_down, self.dir_shift = 0, 0, 0, 0, 0
         self.image = load_image('cycling.png')
         self.font = load_font('ENCR10B.TTF', 32)
         self.state_machine = StateMachine(self)
@@ -223,7 +246,7 @@ class Player:
     def draw(self):
         self.state_machine.draw()
         if play_mode.timelock == False:
-            self.font.draw(1400 / 2 - 100, 780, f'(Time: {get_time()-play_mode.checktime:.2f})', (255, 0, 0))
+            self.font.draw(1400 / 2 - 100, 780, f'(Time: {get_time() - play_mode.checktime:.2f})', (255, 0, 0))
         elif play_mode.timelock == True:
             self.font.draw(1400 / 2 - 100, 780, f'(Time: {play_mode.pausetime - play_mode.checktime:.2f})', (255, 0, 0))
         pass
