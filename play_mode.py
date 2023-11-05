@@ -61,8 +61,6 @@ def update():
     playery = player.y
     playerstamina = player.stamina
 
-    delay(0.01)
-
 def draw():
     clear_canvas()
     game_world.render()

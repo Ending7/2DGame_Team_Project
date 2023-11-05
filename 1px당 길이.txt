@@ -1,0 +1,6 @@
+1px = 3cm
+가로 1400 x 3 = 4200 // 42m
+세로: 800 x 3 = 2400 // 24m
+
+cycle character's width: 50px = 150cm
+cycle character's height: 60px = 180cm
