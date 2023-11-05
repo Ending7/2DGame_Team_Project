@@ -11,6 +11,10 @@ RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0) # 1분에 몇m 움직였는지
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0) #1초에 몇m 움직였는지 알아야 한다.
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER) #초당 몇 픽셀만큼 움직이는지. 미터당 비례하는 픽셀 수를 알았으니, 1초에 움직인 m * 픽셀수를 곱해주면 나온다.
 
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAME_PER_ACTION = 12
+
 # state event check
 # ( state event type, event value )
 def right_down(e):
@@ -92,7 +96,7 @@ class Idle:
 
     @staticmethod
     def draw(player):
-        player.image.clip_draw(player.frame * 91, player.action * 79, 90, 79, player.x, player.y, 70, 70)
+        player.image.clip_draw(int(player.frame) * 91, player.action * 79, 90, 79, player.x, player.y, 70, 70)
 
 
 # 네방향 모두를 스무스하게 움직이게 하려면 경우의수를 따져봐야 한다.
@@ -176,7 +180,7 @@ class Run:
             if player.stamina < 65:
                 player.stamina += 0.05
 
-        player.frame = (player.frame + 1) % 12
+        player.frame = (player.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 12
         player.x += player.dirX * RUN_SPEED_PPS * game_framework.frame_time * player.speed
         player.y += player.dirY * RUN_SPEED_PPS * game_framework.frame_time * player.speed
         if player.x <= 0 + 32:
@@ -192,7 +196,7 @@ class Run:
 
     @staticmethod
     def draw(player):
-        player.image.clip_draw(player.frame * 91, player.action * 79, 90, 79, player.x, player.y, 70, 70)
+        player.image.clip_draw(int(player.frame) * 91, player.action * 79, 90, 79, player.x, player.y, 70, 70)
 
 
 class StateMachine:
