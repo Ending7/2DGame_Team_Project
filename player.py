@@ -12,7 +12,7 @@ RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0) #1초에 몇m 움직였는지 알아야 �
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER) #초당 몇 픽셀만큼 움직이는지. 미터당 비례하는 픽셀 수를 알았으니, 1초에 움직인 m * 픽셀수를 곱해주면 나온다.
 
 TIME_PER_ACTION = 0.5
-ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION # 2.0이게 뭘 하는 것? 프레임 속력2 1초에 2번
 FRAME_PER_ACTION = 12
 
 # state event check
@@ -240,8 +240,8 @@ class Player:
         self.speed = 1
         self.stamina = 65
         self.dir_left, self.dir_right, self.dir_up, self.dir_down, self.dir_shift = 0, 0, 0, 0, 0
-        self.image = load_image('cycling.png')
-        self.font = load_font('ENCR10B.TTF', 32)
+        self.image = load_image('./resource/cycling.png')
+        self.font = load_font('./resource/ENCR10B.TTF', 32)
         self.state_machine = StateMachine(self)
         self.state_machine.start()
 

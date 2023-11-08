@@ -9,7 +9,7 @@ import rankingboard_mode
 
 def init():
     global image
-    image = load_image('title.png')
+    image = load_image('./resource/title.png')
 
 def finish():
     pass

@@ -6,7 +6,7 @@ import title_mode
 
 def init():
     global image
-    image = load_image('rankingboard.png')
+    image = load_image('./resource/rankingboard.png')
 
 def finish():
     pass

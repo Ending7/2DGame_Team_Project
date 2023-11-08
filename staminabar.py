@@ -3,7 +3,7 @@ import play_mode
 
 class Staminabar:
     def __init__(self):
-        self.image = load_image('staminabar.png')
+        self.image = load_image('./resource/staminabar.png')
 
     def draw(self):
         self.image.draw(play_mode.playerx- 30 + play_mode.playerstamina / 2

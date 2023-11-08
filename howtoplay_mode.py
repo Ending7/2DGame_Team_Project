@@ -6,7 +6,7 @@ import title_mode
 
 def init():
     global image
-    image = load_image('howtoplay.png')
+    image = load_image('../howtoplay.png')
 
 def finish():
     pass

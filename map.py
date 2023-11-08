@@ -124,7 +124,7 @@ class Map:
         self.dirX = 0
         self.dirY = 0
         self.dir_left, self.dir_right = 0, 0
-        self.image = load_image('map1.png')
+        self.image = load_image('./resource/map1.png')
         self.state_machine = StateMachine(self)
         self.state_machine.start()
 
