@@ -1,6 +1,6 @@
 # 이것은 각 상태들을 객체로 구현한 것임.
 from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, load_font, \
-    get_time, SDLK_LSHIFT
+    get_time, SDLK_LSHIFT, draw_rectangle
 import game_framework
 import play_mode
 
@@ -122,7 +122,7 @@ def up_key_up(player, e):
             player.dirX, player.dirY, player.action = -1, 0, 1
 
 
-def down_key_down(player, e):
+def down_key_up(player, e):
     if down_up(e):
         player.dir_down = 0
         player.dirY = 0
@@ -135,20 +135,25 @@ def down_key_down(player, e):
 
 
 def use_stamina(player):
-    if player.dir_shift == 1 and play_mode.timelock == False:
+    if player.dir_shift == 1 and play_mode.time_lock == False:
         player.speed = 2
-        if player.stamina > 0:
+        if player.stamina >= 0:
             player.stamina -= 1 * RUN_SPEED_PPS * game_framework.frame_time
-    elif player.dir_shift == 0 and play_mode.timelock == False:
+    elif player.dir_shift == 0 and play_mode.time_lock == False:
         player.speed = 1
         if player.stamina < 65:
             player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
+    if player.stamina <= 0:
+        player.stamina_lock = True
+    elif player.stamina >= 65:
+        player.stamina_lock = False
 
 
 def player_move(player):
-    player.frame = (player.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 12
-    player.x += player.dirX * RUN_SPEED_PPS * game_framework.frame_time * player.speed
-    player.y += player.dirY * RUN_SPEED_PPS * game_framework.frame_time * player.speed
+    if play_mode.time_lock == False and player.stamina_lock == False:
+        player.frame = (player.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 12
+        player.x += player.dirX * RUN_SPEED_PPS * game_framework.frame_time * player.speed
+        player.y += player.dirY * RUN_SPEED_PPS * game_framework.frame_time * player.speed
     if player.x <= 0 + 32:
         player.x = 0 + 32
     if player.x >= 1440 - 74:
@@ -159,17 +164,26 @@ def player_move(player):
         player.y = 600
 
 
+def player_move_stop(player):
+    player.dir_X = 0
+    player.dir_y = 0
+    player.dir_shift = 0
+    player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
+    player.speed = 0
+
+
 class Idle:
     @staticmethod
     def enter(player, e):
-        player.dir_X = 0
-        player.dir_y = 0
-        player.dir_shift = 0
-        player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
+        player_move_stop(player)
         print('idle_right:')
         print(player.dir_right)
         print('idle_left:')
         print(player.dir_left)
+        print('idle_up:')
+        print(player.dir_up)
+        print('idle_down:')
+        print(player.dir_down)
         pass
 
     @staticmethod
@@ -179,8 +193,10 @@ class Idle:
     @staticmethod
     def do(player):
         player.frame = player.frame
-        if player.stamina < 65 and play_mode.timelock == False:
+        if player.stamina < 65 and play_mode.time_lock == False:
             player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
+        if player.stamina_lock == True and player.stamina >= 65:
+            player.stamina_lock = False
 
     @staticmethod
     def draw(player):
@@ -196,7 +212,7 @@ class Run:
         right_key_up(player, e)
         left_key_up(player, e)
         up_key_up(player, e)
-        down_key_down(player, e)
+        down_key_up(player, e)
 
         if lshift_up(e):
             player.dir_shift = 0
@@ -214,7 +230,6 @@ class Run:
 
     @staticmethod
     def do(player):
-
         use_stamina(player)
         player_move(player)
         pass
@@ -264,6 +279,7 @@ class Player:
         self.dirY = 0
         self.speed = 1
         self.stamina = 65
+        self.stamina_lock = False
         self.dir_left, self.dir_right, self.dir_up, self.dir_down, self.dir_shift = 0, 0, 0, 0, 0
         self.image = load_image('./resource/cycling.png')
         self.font = load_font('./resource/ENCR10B.TTF', 32)
@@ -278,8 +294,16 @@ class Player:
 
     def draw(self):
         self.state_machine.draw()
-        if play_mode.timelock == False:
-            self.font.draw(1400 / 2 - 100, 780, f'(Time: {get_time() - play_mode.checktime:.2f})', (255, 0, 0))
-        elif play_mode.timelock == True:
-            self.font.draw(1400 / 2 - 100, 780, f'(Time: {play_mode.pausetime - play_mode.checktime:.2f})', (255, 0, 0))
+        if play_mode.time_lock == False:
+            self.font.draw(1400 / 2 - 100, 780, f'(Time: {get_time() - play_mode.check_time:.2f})', (255, 0, 0))
+        elif play_mode.time_lock == True:
+            self.font.draw(1400 / 2 - 100, 780, f'(Time: {play_mode.pause_time - play_mode.check_time:.2f})',
+                           (255, 0, 0))
+        if self.stamina_lock == True:
+            self.font.draw(self.x - 100, self.y + 40, f'Now Groggy...', (0, 0, 255))
+
+        draw_rectangle(*self.get_bb())
         pass
+
+    def get_bb(self):
+        return self.x - 30, self.y - 35, self.x + 30, self.y - 30

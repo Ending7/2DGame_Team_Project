@@ -1,14 +1,31 @@
 from pico2d import *
+import random
+import time
 import game_world
 import game_framework
 import pause_mode
 import title_mode
+from rock import Rock
 from player import Player
 from map import Map
 from bridge import Bridge
-from keyexplain import Keyexplain
-from staminabar import Staminabar
+from key_explain import Keyexplain
+from stamina_bar import Staminabar
 
+def spawn_rock():
+    global rock_init_time
+    global rock_spawn_time
+    rock_spawn_time = get_time() - rock_init_time
+    if rock_spawn_time >= 0.5:
+        rock = Rock(1500, random.randint(580, 580))
+        game_world.add_object(rock, 1)
+        rock = Rock(1500, random.randint(260, 260))
+        game_world.add_object(rock, 1)
+        rock = Rock(1500, random.randint(280, 430))
+        game_world.add_object(rock, 1)
+        rock = Rock(1500, random.randint(440, 560))
+        game_world.add_object(rock, 1)
+        rock_init_time = get_time()
 
 def handle_events():
     events = get_events()
@@ -26,13 +43,16 @@ def init():
     global map
     global bridge
     global player
+    global rock
     global keyexplain
     global staminabar
-    global checktime
-    global timelock
+    global check_time
+    global time_lock
+    global rock_init_time
 
-    timelock = False
-    checktime = get_time()
+    time_lock = False
+    check_time = get_time()
+    rock_init_time = get_time()
 
     map = Map()
     game_world.add_object(map, 0)
@@ -40,10 +60,11 @@ def init():
     game_world.add_object(bridge, 1)
     player = Player()
     game_world.add_object(player, 2)
-    keyexplain = Keyexplain()
-    game_world.add_object(keyexplain, 3)
-    staminabar = Staminabar()
-    game_world.add_object(staminabar, 4)
+
+    key_explain = Keyexplain()
+    game_world.add_object(key_explain, 3)
+    stamina_bar = Staminabar()
+    game_world.add_object(stamina_bar, 4)
 
 
 def finish():
@@ -52,8 +73,9 @@ def finish():
 
 
 def update():
-
+    spawn_rock()
     game_world.update()
+    pass
 
 def draw():
     clear_canvas()
@@ -62,30 +84,22 @@ def draw():
 
 
 def pause():
-    global pausetime
-    global checktime
-    global timelock
-
-    player.dirX = 0
-    player.dirY = 0
-    player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
-    player.dir_lshift = 0
-    map.dirX = 0
-    map.dirY = 0
-    map.dir_left, map.dir_right = 0, 0
-
-    timelock = True
-    pausetime = get_time()
+    global pause_time
+    global check_time
+    global time_lock
+    time_lock = True
+    pause_time = get_time()
+    player.state_machine.handle_event(('LETS_IDLE', 0))
     pass
 
 
 def resume():
-    global pausetime
-    global resumetime
-    global checktime
-    global timelock
+    global pause_time
+    global resume_time
+    global check_time
+    global time_lock
 
-    timelock = False
-    resumetime = get_time()
-    checktime += resumetime - pausetime
+    time_lock = False
+    resume_time = get_time()
+    check_time += resume_time - pause_time
     pass
