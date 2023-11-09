@@ -171,19 +171,27 @@ def player_move_stop(player):
     player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
     player.speed = 0
 
+def debug(player):
+    print('right:')
+    print(player.dir_right)
+    print('left:')
+    print(player.dir_left)
+    print('up:')
+    print(player.dir_up)
+    print('down:')
+    print(player.dir_down)
+
+def stamina_recovery(player):
+    if player.stamina < 65 and play_mode.time_lock == False:
+        player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
+    if player.stamina_lock == True and player.stamina >= 65:
+        player.stamina_lock = False
 
 class Idle:
     @staticmethod
     def enter(player, e):
         player_move_stop(player)
-        print('idle_right:')
-        print(player.dir_right)
-        print('idle_left:')
-        print(player.dir_left)
-        print('idle_up:')
-        print(player.dir_up)
-        print('idle_down:')
-        print(player.dir_down)
+        debug(player)
         pass
 
     @staticmethod
@@ -193,10 +201,7 @@ class Idle:
     @staticmethod
     def do(player):
         player.frame = player.frame
-        if player.stamina < 65 and play_mode.time_lock == False:
-            player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
-        if player.stamina_lock == True and player.stamina >= 65:
-            player.stamina_lock = False
+        stamina_recovery(player)
 
     @staticmethod
     def draw(player):
@@ -213,15 +218,11 @@ class Run:
         left_key_up(player, e)
         up_key_up(player, e)
         down_key_up(player, e)
-
         if lshift_up(e):
             player.dir_shift = 0
-
         if player.dir_left == 0 and player.dir_right == 0 and player.dir_up == 0 and player.dir_down == 0:
             player.state_machine.handle_event(('LETS_IDLE', 0))
-
-        print('run_right, left:', player.dir_right, player.dir_left)
-        print('run_up, down:', player.dir_up, player.dir_down)
+        debug(player)
         pass
 
     @staticmethod
@@ -307,3 +308,4 @@ class Player:
 
     def get_bb(self):
         return self.x - 30, self.y - 35, self.x + 30, self.y - 30
+
