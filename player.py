@@ -135,7 +135,6 @@ def down_key_down(player, e):
 
 
 def use_stamina(player):
-
     if player.dir_shift == 1 and play_mode.timelock == False:
         player.speed = 2
         if player.stamina > 0:

@@ -52,17 +52,6 @@ def finish():
 
 
 def update():
-    global playerx
-    global playery
-    global playerstamina
-    global playerdirx
-    global playerdiry
-
-    playerx = player.x
-    playery = player.y
-    playerstamina = player.stamina
-    playerdirx = player.dirX
-    playerdiry = player.dirY
 
     game_world.update()
 
