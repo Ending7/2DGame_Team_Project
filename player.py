@@ -2,6 +2,7 @@
 from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, load_font, \
     get_time, SDLK_LSHIFT, draw_rectangle
 import game_framework
+import game_world
 import play_mode
 
 PIXEL_PER_METER = (10.0 / 0.3)  # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
@@ -309,3 +310,6 @@ class Player:
     def get_bb(self):
         return self.x - 30, self.y - 35, self.x + 30, self.y - 30
 
+    def handle_collision(self, group, other):
+        if group == 'player:rock':
+            game_framework.quit()

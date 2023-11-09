@@ -14,18 +14,27 @@ from stamina_bar import Staminabar
 def spawn_rock():
     global rock_init_time
     global rock_spawn_time
+
     rock_spawn_time = get_time() - rock_init_time
+
     if rock_spawn_time >= 0.5:
         rock = Rock(1500, random.randint(580, 580))
         game_world.add_object(rock, 1)
+        game_world.add_collision_pair('player:rock', None, rock)
+
         rock = Rock(1500, random.randint(260, 260))
         game_world.add_object(rock, 1)
+        game_world.add_collision_pair('player:rock', None, rock)
+
         rock = Rock(1500, random.randint(280, 430))
         game_world.add_object(rock, 1)
+        game_world.add_collision_pair('player:rock', None, rock)
+
         rock = Rock(1500, random.randint(440, 560))
         game_world.add_object(rock, 1)
-        rock_init_time = get_time()
+        game_world.add_collision_pair('player:rock', None, rock)
 
+        rock_init_time = get_time()
 def player_idle():
     player.dirX = 0
     player.dirY = 0
@@ -35,6 +44,26 @@ def player_idle():
     map.dirY = 0
     map.dir_left, map.dir_right = 0, 0
     player.state_machine.handle_event(('LETS_IDLE', 0))
+
+def create_object():
+    global map
+    global bridge
+    global player
+    global rock
+    global keyexplain
+    global staminabar
+
+    map = Map()
+    game_world.add_object(map, 0)
+    bridge = Bridge()
+    game_world.add_object(bridge, 1)
+    player = Player()
+    game_world.add_object(player, 2)
+
+    key_explain = Keyexplain()
+    game_world.add_object(key_explain, 3)
+    stamina_bar = Staminabar()
+    game_world.add_object(stamina_bar, 4)
 
 def handle_events():
     events = get_events()
@@ -62,19 +91,11 @@ def init():
     time_lock = False
     check_time = get_time()
     rock_init_time = get_time()
+    #객체 생성
+    create_object()
 
-    map = Map()
-    game_world.add_object(map, 0)
-    bridge = Bridge()
-    game_world.add_object(bridge, 1)
-    player = Player()
-    game_world.add_object(player, 2)
-
-    key_explain = Keyexplain()
-    game_world.add_object(key_explain, 3)
-    stamina_bar = Staminabar()
-    game_world.add_object(stamina_bar, 4)
-
+    #충돌 상황 등록
+    game_world.add_collision_pair('player:rock', player, None)
 
 def finish():
     game_world.clear()
@@ -84,6 +105,7 @@ def finish():
 def update():
     spawn_rock()
     game_world.update()
+    game_world.handle_collision()
     pass
 
 def draw():
