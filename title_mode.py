@@ -11,16 +11,20 @@ def init():
     global image
     image = load_image('./resource/title.png')
 
+
 def finish():
     pass
 
+
 def update():
     pass
+
 
 def draw():
     clear_canvas()
     image.draw(1400 / 2, 800 / 2)
     update_canvas()
+
 
 def handle_events():
     events = get_events()
@@ -36,8 +40,10 @@ def handle_events():
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_3):
             game_framework.change_mode(rankingboard_mode)
 
+
 def pause():
     pass
+
 
 def resume():
     pass

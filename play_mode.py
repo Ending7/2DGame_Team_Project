@@ -9,8 +9,8 @@ from bridge import Bridge
 from keyexplain import Keyexplain
 from staminabar import Staminabar
 
-def handle_events():
 
+def handle_events():
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -47,9 +47,11 @@ def init():
     staminabar = Staminabar()
     game_world.add_object(staminabar, 4)
 
+
 def finish():
     game_world.clear()
     pass
+
 
 def update():
     global playerx
@@ -61,10 +63,12 @@ def update():
     playery = player.y
     playerstamina = player.stamina
 
+
 def draw():
     clear_canvas()
     game_world.render()
     update_canvas()
+
 
 def pause():
     global pausetime
@@ -82,6 +86,7 @@ def pause():
     timelock = True
     pausetime = get_time()
     pass
+
 
 def resume():
     global pausetime

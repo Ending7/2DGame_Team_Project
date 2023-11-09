@@ -68,7 +68,8 @@ def time_out(e):
 def lets_idle(e):
     return e[0] == 'LETS_IDLE'
 
-def keyboard_down(player,e):
+
+def any_key_down(player, e):
     if right_down(e):
         player.dir_right = 1
         player.dirX, player.action = 1, 1
@@ -84,7 +85,8 @@ def keyboard_down(player,e):
     elif lshift_down(e):
         player.dir_shift = 1
 
-def rightkey_up(player,e):
+
+def right_key_up(player, e):
     if right_up(e):
         player.dir_right = 0
         player.dirX = 0
@@ -95,7 +97,8 @@ def rightkey_up(player,e):
         elif player.dir_down == 1:
             player.dirX, player.dirY, player.action = 0, -1, 1
 
-def leftkey_up(player,e):
+
+def left_key_up(player, e):
     if left_up(e):
         player.dir_left = 0
         player.dirX = 0
@@ -105,7 +108,9 @@ def leftkey_up(player,e):
             player.dirX, player.dirY, player.action = 0, 1, 1
         elif player.dir_down == 1:
             player.dirX, player.dirY, player.action = 0, -1, 1
-def upkey_up(player, e):
+
+
+def up_key_up(player, e):
     if up_up(e):
         player.dir_up = 0
         player.dirY = 0
@@ -115,7 +120,9 @@ def upkey_up(player, e):
             player.dirX, player.dirY, player.action = 1, 0, 1
         elif player.dir_left == 1:
             player.dirX, player.dirY, player.action = -1, 0, 1
-def downkey_down(player, e):
+
+
+def down_key_down(player, e):
     if down_up(e):
         player.dir_down = 0
         player.dirY = 0
@@ -125,6 +132,33 @@ def downkey_down(player, e):
             player.dirX, player.dirY, player.action = 1, 0, 1
         elif player.dir_left == 1:
             player.dirX, player.dirY, player.action = -1, 0, 1
+
+
+def use_stamina(player):
+
+    if player.dir_shift == 1 and play_mode.timelock == False:
+        player.speed = 2
+        if player.stamina > 0:
+            player.stamina -= 1 * RUN_SPEED_PPS * game_framework.frame_time
+    elif player.dir_shift == 0 and play_mode.timelock == False:
+        player.speed = 1
+        if player.stamina < 65:
+            player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
+
+
+def player_move(player):
+    player.frame = (player.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 12
+    player.x += player.dirX * RUN_SPEED_PPS * game_framework.frame_time * player.speed
+    player.y += player.dirY * RUN_SPEED_PPS * game_framework.frame_time * player.speed
+    if player.x <= 0 + 32:
+        player.x = 0 + 32
+    if player.x >= 1440 - 74:
+        player.x = 1440 - 74
+    if player.y <= 280:
+        player.y = 280
+    if player.y >= 600:
+        player.y = 600
+
 
 class Idle:
     @staticmethod
@@ -147,7 +181,7 @@ class Idle:
     def do(player):
         player.frame = player.frame
         if player.stamina < 65 and play_mode.timelock == False:
-            player.stamina += 0.05
+            player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
 
     @staticmethod
     def draw(player):
@@ -159,11 +193,11 @@ class Run:
 
     @staticmethod
     def enter(player, e):
-        keyboard_down(player, e)
-        rightkey_up(player,e)
-        leftkey_up(player,e)
-        upkey_up(player,e)
-        downkey_down(player,e)
+        any_key_down(player, e)
+        right_key_up(player, e)
+        left_key_up(player, e)
+        up_key_up(player, e)
+        down_key_down(player, e)
 
         if lshift_up(e):
             player.dir_shift = 0
@@ -181,27 +215,9 @@ class Run:
 
     @staticmethod
     def do(player):
-        if player.dir_shift == 1 and play_mode.timelock == False:
-            player.speed = 2
-            if player.stamina > 0:
-                player.stamina -= 0.2
-        elif player.dir_shift == 0 and play_mode.timelock == False:
-            player.speed = 1
-            if player.stamina < 65:
-                player.stamina += 0.05
 
-        player.frame = (player.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 12
-        player.x += player.dirX * RUN_SPEED_PPS * game_framework.frame_time * player.speed
-        player.y += player.dirY * RUN_SPEED_PPS * game_framework.frame_time * player.speed
-        if player.x <= 0 + 32:
-            player.x = 0 + 32
-        if player.x >= 1440 - 74:
-            player.x = 1440 - 74
-        if player.y <= 280:
-            player.y = 280
-        if player.y >= 600:
-            player.y = 600
-
+        use_stamina(player)
+        player_move(player)
         pass
 
     @staticmethod

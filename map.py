@@ -3,11 +3,12 @@ from pico2d import SDL_KEYDOWN, SDL_KEYUP, SDLK_LEFT, SDLK_RIGHT
 
 import game_framework
 
-PIXEL_PER_METER = (10.0 / 0.3) # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
-RUN_SPEED_KMPH = 10.0 # Km / Hour 한 시간에 마라톤 선수가 대략 20km를 달린다.
-RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0) # 1분에 몇m 움직였는지
-RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0) #1초에 몇m 움직였는지 알아야 한다.
-RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER) #초당 몇 픽셀만큼 움직이는지. 미터당 비례하는 픽셀 수를 알았으니, 1초에 움직인 m * 픽셀수를 곱해주면 나온다.
+PIXEL_PER_METER = (10.0 / 0.3)  # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
+RUN_SPEED_KMPH = 10.0  # Km / Hour 한 시간에 마라톤 선수가 대략 20km를 달린다.
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)  # 1분에 몇m 움직였는지
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)  # 1초에 몇m 움직였는지 알아야 한다.
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)  # 초당 몇 픽셀만큼 움직이는지. 미터당 비례하는 픽셀 수를 알았으니, 1초에 움직인 m * 픽셀수를 곱해주면 나온다.
+
 
 def right_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_RIGHT
@@ -27,6 +28,7 @@ def left_up(e):
 
 def lets_idle(e):
     return e[0] == 'LETS_IDLE'
+
 
 def move_status(map, e):
     if right_down(e):
@@ -48,6 +50,7 @@ def move_status(map, e):
 
     if map.dir_left == 0 and map.dir_right == 0:
         map.state_machine.handle_event(('LETS_IDLE', 0))
+
 
 class Idle:
 
@@ -73,7 +76,7 @@ class Idle:
 class Move:
     @staticmethod
     def enter(map, e):
-       move_status(map, e)
+        move_status(map, e)
 
     @staticmethod
     def exit(map, e):
@@ -86,6 +89,7 @@ class Move:
             map.x = 45
         elif map.x <= -500:
             map.x = -500
+
     @staticmethod
     def draw(map):
         map.image.draw(2000 / 1000 + 950 + map.x, 800 / 2)

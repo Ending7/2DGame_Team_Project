@@ -16,6 +16,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_s:
             game_framework.pop_mode()
 
+
 def init():
     global pannel
     pannel = Pannel()
@@ -36,8 +37,10 @@ def finish():
     game_world.remove_object(pannel)
     pass
 
+
 def pause():
     pass
+
 
 def resume():
     pass
