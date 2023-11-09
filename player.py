@@ -4,16 +4,16 @@ from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SD
 import game_framework
 import play_mode
 
-
-PIXEL_PER_METER = (10.0 / 0.3) # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
-RUN_SPEED_KMPH = 20.0 # Km / Hour 한 시간에 마라톤 선수가 대략 20km를 달린다.
-RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0) # 1분에 몇m 움직였는지
-RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0) #1초에 몇m 움직였는지 알아야 한다.
-RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER) #초당 몇 픽셀만큼 움직이는지. 미터당 비례하는 픽셀 수를 알았으니, 1초에 움직인 m * 픽셀수를 곱해주면 나온다.
+PIXEL_PER_METER = (10.0 / 0.3)  # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
+RUN_SPEED_KMPH = 20.0  # Km / Hour 한 시간에 마라톤 선수가 대략 20km를 달린다.
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)  # 1분에 몇m 움직였는지
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)  # 1초에 몇m 움직였는지 알아야 한다.
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)  # 초당 몇 픽셀만큼 움직이는지. 미터당 비례하는 픽셀 수를 알았으니, 1초에 움직인 m * 픽셀수를 곱해주면 나온다.
 
 TIME_PER_ACTION = 0.5
-ACTION_PER_TIME = 1.0 / TIME_PER_ACTION # 2.0이게 뭘 하는 것? 프레임 속력2 1초에 2번
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION  # 2.0이게 뭘 하는 것? 프레임 속력2 1초에 2번
 FRAME_PER_ACTION = 12
+
 
 # state event check
 # ( state event type, event value )
@@ -52,11 +52,14 @@ def down_up(e):
 def space_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE
 
+
 def lshift_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_LSHIFT
 
+
 def lshift_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LSHIFT
+
 
 def time_out(e):
     return e[0] == 'TIME_OUT'
@@ -65,12 +68,65 @@ def time_out(e):
 def lets_idle(e):
     return e[0] == 'LETS_IDLE'
 
+def keyboard_down(player,e):
+    if right_down(e):
+        player.dir_right = 1
+        player.dirX, player.action = 1, 1
+    elif left_down(e):
+        player.dir_left = 1
+        player.dirX, player.action = -1, 1
+    elif up_down(e):
+        player.dir_up = 1
+        player.dirY, player.action = 1, 1
+    elif down_down(e):
+        player.dir_down = 1
+        player.dirY, player.action = -1, 1
+    elif lshift_down(e):
+        player.dir_shift = 1
 
-# time_out = lambda e : e[0] == 'TIME_OUT'
+def rightkey_up(player,e):
+    if right_up(e):
+        player.dir_right = 0
+        player.dirX = 0
+        if player.dir_left == 1:
+            player.dirX, player.action = -1, 1
+        elif player.dir_up == 1:
+            player.dirX, player.dirY, player.action = 0, 1, 1
+        elif player.dir_down == 1:
+            player.dirX, player.dirY, player.action = 0, -1, 1
 
+def leftkey_up(player,e):
+    if left_up(e):
+        player.dir_left = 0
+        player.dirX = 0
+        if player.dir_right == 1:
+            player.dirX, player.action = 1, 1
+        elif player.dir_up == 1:
+            player.dirX, player.dirY, player.action = 0, 1, 1
+        elif player.dir_down == 1:
+            player.dirX, player.dirY, player.action = 0, -1, 1
+def upkey_up(player, e):
+    if up_up(e):
+        player.dir_up = 0
+        player.dirY = 0
+        if player.dir_down == 1:
+            player.dirY, player.action = -1, 1
+        elif player.dir_right == 1:
+            player.dirX, player.dirY, player.action = 1, 0, 1
+        elif player.dir_left == 1:
+            player.dirX, player.dirY, player.action = -1, 0, 1
+def downkey_down(player, e):
+    if down_up(e):
+        player.dir_down = 0
+        player.dirY = 0
+        if player.dir_up == 1:
+            player.dirY, player.action = 1, 1
+        elif player.dir_right == 1:
+            player.dirX, player.dirY, player.action = 1, 0, 1
+        elif player.dir_left == 1:
+            player.dirX, player.dirY, player.action = -1, 0, 1
 
 class Idle:
-
     @staticmethod
     def enter(player, e):
         player.dir_X = 0
@@ -93,7 +149,6 @@ class Idle:
         if player.stamina < 65 and play_mode.timelock == False:
             player.stamina += 0.05
 
-
     @staticmethod
     def draw(player):
         player.image.clip_draw(int(player.frame) * 91, player.action * 79, 90, 79, player.x, player.y, 70, 70)
@@ -104,58 +159,13 @@ class Run:
 
     @staticmethod
     def enter(player, e):
-        if right_down(e):
-            player.dir_right = 1
-            player.dirX, player.action = 1, 1
-        elif left_down(e):
-            player.dir_left = 1
-            player.dirX, player.action = -1, 1
-        elif up_down(e):
-            player.dir_up = 1
-            player.dirY, player.action = 1, 1
-        elif down_down(e):
-            player.dir_down = 1
-            player.dirY, player.action = -1, 1
-        elif lshift_down(e):
-            player.dir_shift = 1
+        keyboard_down(player, e)
+        rightkey_up(player,e)
+        leftkey_up(player,e)
+        upkey_up(player,e)
+        downkey_down(player,e)
 
-        elif right_up(e):
-            player.dir_right = 0
-            player.dirX = 0
-            if player.dir_left == 1:
-                player.dirX, player.action = -1, 1
-            elif player.dir_up == 1:
-                player.dirX, player.dirY, player.action = 0, 1, 1
-            elif player.dir_down == 1:
-                player.dirX, player.dirY, player.action = 0, -1, 1
-        elif left_up(e):
-            player.dir_left = 0
-            player.dirX = 0
-            if player.dir_right == 1:
-                player.dirX, player.action = 1, 1
-            elif player.dir_up == 1:
-                player.dirX, player.dirY, player.action = 0, 1, 1
-            elif player.dir_down == 1:
-                player.dirX, player.dirY, player.action = 0, -1, 1
-        elif up_up(e):
-            player.dir_up = 0
-            player.dirY = 0
-            if player.dir_down == 1:
-                player.dirY, player.action = -1, 1
-            elif player.dir_right == 1:
-                player.dirX, player.dirY, player.action = 1, 0, 1
-            elif player.dir_left == 1:
-                player.dirX, player.dirY, player.action = -1, 0, 1
-        elif down_up(e):
-            player.dir_down = 0
-            player.dirY = 0
-            if player.dir_up == 1:
-                player.dirY, player.action = 1, 1
-            elif player.dir_right == 1:
-                player.dirX, player.dirY, player.action = 1, 0, 1
-            elif player.dir_left == 1:
-                player.dirX, player.dirY, player.action = -1, 0, 1
-        elif lshift_up(e):
+        if lshift_up(e):
             player.dir_shift = 0
 
         if player.dir_left == 0 and player.dir_right == 0 and player.dir_up == 0 and player.dir_down == 0:

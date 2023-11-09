@@ -1,16 +1,19 @@
 objects = [[] for _ in range(6)]
 
 
-def add_object(o, depth = 0):
+def add_object(o, depth=0):
     objects[depth].append(o)
 
-def add_objects(ol, depth = 0):
+
+def add_objects(ol, depth=0):
     objects[depth] += ol
+
 
 def update():
     for layer in objects:
         for o in layer:
             o.update()
+
 
 def render():
     for layer in objects:
@@ -24,7 +27,6 @@ def remove_object(o):
             layer.remove(o)
             return
     raise ValueError('이미 존재 하지 않습니다')
-
 
 
 def clear():

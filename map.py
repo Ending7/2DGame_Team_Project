@@ -28,6 +28,26 @@ def left_up(e):
 def lets_idle(e):
     return e[0] == 'LETS_IDLE'
 
+def move_status(map, e):
+    if right_down(e):
+        map.dir_right = 1
+        map.dirX = 1
+    elif left_down(e):
+        map.dir_left = 1
+        map.dirX = -1
+    elif right_up(e):
+        map.dir_right = 0
+        map.dirX = 0
+        if map.dir_left == 1:
+            map.dirX = -1
+    elif left_up(e):
+        map.dir_left = 0
+        map.dirX = 0
+        if map.dir_right == 1:
+            map.dirX = 1
+
+    if map.dir_left == 0 and map.dir_right == 0:
+        map.state_machine.handle_event(('LETS_IDLE', 0))
 
 class Idle:
 
@@ -53,25 +73,7 @@ class Idle:
 class Move:
     @staticmethod
     def enter(map, e):
-        if right_down(e):
-            map.dir_right = 1
-            map.dirX = 1
-        elif left_down(e):
-            map.dir_left = 1
-            map.dirX = -1
-        elif right_up(e):
-            map.dir_right = 0
-            map.dirX = 0
-            if map.dir_left == 1:
-                map.dirX = -1
-        elif left_up(e):
-            map.dir_left = 0
-            map.dirX = 0
-            if map.dir_right == 1:
-                map.dirX = 1
-
-        if map.dir_left == 0 and map.dir_right == 0:
-            map.state_machine.handle_event(('LETS_IDLE', 0))
+       move_status(map, e)
 
     @staticmethod
     def exit(map, e):
