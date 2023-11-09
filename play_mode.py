@@ -1,6 +1,5 @@
 from pico2d import *
 import random
-import time
 import game_world
 import game_framework
 import pause_mode
@@ -26,6 +25,16 @@ def spawn_rock():
         rock = Rock(1500, random.randint(440, 560))
         game_world.add_object(rock, 1)
         rock_init_time = get_time()
+
+def player_idle():
+    player.dirX = 0
+    player.dirY = 0
+    player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
+    player.dir_lshift = 0
+    map.dirX = 0
+    map.dirY = 0
+    map.dir_left, map.dir_right = 0, 0
+    player.state_machine.handle_event(('LETS_IDLE', 0))
 
 def handle_events():
     events = get_events()
@@ -89,7 +98,8 @@ def pause():
     global time_lock
     time_lock = True
     pause_time = get_time()
-    player.state_machine.handle_event(('LETS_IDLE', 0))
+    player_idle()
+
     pass
 
 
