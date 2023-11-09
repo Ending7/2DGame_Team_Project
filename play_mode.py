@@ -21,8 +21,6 @@ def handle_events():
             game_framework.push_mode(pause_mode)
         else:
             player.handle_event(event)
-            map.handle_event(event)
-
 
 def init():
     global map
@@ -57,12 +55,16 @@ def update():
     global playerx
     global playery
     global playerstamina
-    game_world.update()
+    global playerdirx
+    global playerdiry
 
     playerx = player.x
     playery = player.y
     playerstamina = player.stamina
+    playerdirx = player.dirX
+    playerdiry = player.dirY
 
+    game_world.update()
 
 def draw():
     clear_canvas()
