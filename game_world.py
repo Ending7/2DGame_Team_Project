@@ -23,10 +23,23 @@ def render():
             o.draw()
 
 
+def remove_collision_object(o):
+    for pairs in collision_pairs.values():
+        if o in pairs[0]:
+            pairs[0].remove(o)
+        if o in pairs[1]:
+            pairs[1].remove(o)
+    pass
+
+def remove_all_object(group):
+    collision_pairs.pop(group, None)
+
 def remove_object(o):
     for layer in objects:
         if o in layer:
-            layer.remove(o)
+            layer.remove(o) #시각적 월드에서 지운다.
+            remove_collision_object(o) #충돌 그룹에서 삭제 완료
+            del o #객체 자체도 완전히 삭제해 줘야한다. free. 메모리에서 완전히 삭제
             return
     raise ValueError('이미 존재 하지 않습니다')
 

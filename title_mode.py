@@ -2,6 +2,7 @@ from pico2d import get_events, load_image, clear_canvas, update_canvas
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1, SDLK_2, SDLK_3
 
 import game_framework
+import game_world
 import howtoplay_mode
 import play_mode
 import rankingboard_mode

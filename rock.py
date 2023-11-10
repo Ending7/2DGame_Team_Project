@@ -29,5 +29,4 @@ class Rock:
         return self.x - 20, self.y - 20, self.x + 20, self.y + 20
 
     def handle_collision(self, group, other):
-        if group == 'player:rock':
-            pass
+        pass

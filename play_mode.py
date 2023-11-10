@@ -11,6 +11,7 @@ from bridge import Bridge
 from key_explain import Keyexplain
 from stamina_bar import Staminabar
 
+
 def spawn_rock():
     global rock_init_time
     global rock_spawn_time
@@ -35,6 +36,8 @@ def spawn_rock():
         game_world.add_collision_pair('player:rock', None, rock)
 
         rock_init_time = get_time()
+
+
 def player_idle():
     player.dirX = 0
     player.dirY = 0
@@ -44,6 +47,7 @@ def player_idle():
     map.dirY = 0
     map.dir_left, map.dir_right = 0, 0
     player.state_machine.handle_event(('LETS_IDLE', 0))
+
 
 def create_object():
     global map
@@ -65,6 +69,7 @@ def create_object():
     stamina_bar = Staminabar()
     game_world.add_object(stamina_bar, 4)
 
+
 def handle_events():
     events = get_events()
     for event in events:
@@ -76,6 +81,7 @@ def handle_events():
             game_framework.push_mode(pause_mode)
         else:
             player.handle_event(event)
+
 
 def init():
     global map
@@ -91,13 +97,15 @@ def init():
     time_lock = False
     check_time = get_time()
     rock_init_time = get_time()
-    #객체 생성
+    # 객체 생성
     create_object()
 
-    #충돌 상황 등록
+    # 충돌 상황 등록
     game_world.add_collision_pair('player:rock', player, None)
 
+
 def finish():
+    game_world.remove_all_object('player:rock')
     game_world.clear()
     pass
 
@@ -106,7 +114,9 @@ def update():
     spawn_rock()
     game_world.update()
     game_world.handle_collision()
-    pass
+    if player.die:
+        game_framework.change_mode(title_mode)
+
 
 def draw():
     clear_canvas()
@@ -121,7 +131,6 @@ def pause():
     time_lock = True
     pause_time = get_time()
     player_idle()
-
     pass
 
 

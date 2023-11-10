@@ -4,6 +4,7 @@ from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SD
 import game_framework
 import game_world
 import play_mode
+import title_mode
 
 PIXEL_PER_METER = (10.0 / 0.3)  # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
 RUN_SPEED_KMPH = 20.0  # Km / Hour 한 시간에 마라톤 선수가 대략 20km를 달린다.
@@ -172,6 +173,7 @@ def player_move_stop(player):
     player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
     player.speed = 0
 
+
 def debug(player):
     print('right:')
     print(player.dir_right)
@@ -182,11 +184,13 @@ def debug(player):
     print('down:')
     print(player.dir_down)
 
+
 def stamina_recovery(player):
     if player.stamina < 65 and play_mode.time_lock == False:
         player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
     if player.stamina_lock == True and player.stamina >= 65:
         player.stamina_lock = False
+
 
 class Idle:
     @staticmethod
@@ -281,6 +285,7 @@ class Player:
         self.dirY = 0
         self.speed = 1
         self.stamina = 65
+        self.die = False
         self.stamina_lock = False
         self.dir_left, self.dir_right, self.dir_up, self.dir_down, self.dir_shift = 0, 0, 0, 0, 0
         self.image = load_image('./resource/cycling.png')
@@ -312,4 +317,4 @@ class Player:
 
     def handle_collision(self, group, other):
         if group == 'player:rock':
-            game_framework.quit()
+            self.die = True
