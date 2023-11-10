@@ -1,6 +1,4 @@
 from pico2d import load_image
-from pico2d import SDL_KEYDOWN, SDL_KEYUP, SDLK_LEFT, SDLK_RIGHT
-
 import game_framework
 import play_mode
 
@@ -11,9 +9,9 @@ RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)  # 1초에 몇m 움직였는지 알아야
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)  # 초당 몇 픽셀만큼 움직이는지. 미터당 비례하는 픽셀 수를 알았으니, 1초에 움직인 m * 픽셀수를 곱해주면 나온다.
 
 
-class Map:
+class Cycling_map:
     def __init__(self):
-        self.image = load_image('./resource/map1.png')
+        self.image = load_image('./resource/cyclingmap.png')
         self.x = 0
 
     def draw(self):
