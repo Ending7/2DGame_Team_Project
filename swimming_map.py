@@ -1,6 +1,6 @@
 from pico2d import load_image
 import game_framework
-import cycling_mode
+import swimming_mode
 
 PIXEL_PER_METER = (10.0 / 0.3)  # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
 RUN_SPEED_KMPH = 10.0  # Km / Hour 한 시간에 마라톤 선수가 대략 20km를 달린다.
@@ -9,17 +9,17 @@ RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)  # 1초에 몇m 움직였는지 알아야
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)  # 초당 몇 픽셀만큼 움직이는지. 미터당 비례하는 픽셀 수를 알았으니, 1초에 움직인 m * 픽셀수를 곱해주면 나온다.
 
 
-class Cycling_map:
+class Swimming_map:
     def __init__(self):
-        self.image = load_image('./resource/cyclingmap.png')
+        self.image = load_image('./resource/swimmingmap.png')
         self.x = 0
 
     def draw(self):
         self.image.draw(2000 / 1000 + 950 + self.x, 800 / 2)
 
     def update(self):
-        if cycling_mode.player.stamina_lock == False:
-            self.x -= cycling_mode.player.dirX * RUN_SPEED_PPS * game_framework.frame_time * cycling_mode.player.speed
+        if swimming_mode.player.stamina_lock == False:
+            self.x -= swimming_mode.player.dirX * RUN_SPEED_PPS * game_framework.frame_time * swimming_mode.player.speed
         if self.x <= -500:
             self.x = -500
         elif self.x >= 45:

@@ -2,7 +2,7 @@
 from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, load_font, \
     get_time, SDLK_LSHIFT, draw_rectangle
 import game_framework
-import play_mode
+import cycling_mode
 
 PIXEL_PER_METER = (10.0 / 0.3)  # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
 RUN_SPEED_KMPH = 20.0  # Km / Hour 한 시간에 마라톤 선수가 대략 20km를 달린다.
@@ -135,11 +135,11 @@ def down_key_up(player, e):
 
 
 def use_stamina(player):
-    if player.dir_shift == 1 and play_mode.time_lock == False:
+    if player.dir_shift == 1 and cycling_mode.time_lock == False:
         player.speed = 2
         if player.stamina >= 0:
             player.stamina -= 1 * RUN_SPEED_PPS * game_framework.frame_time
-    elif player.dir_shift == 0 and play_mode.time_lock == False:
+    elif player.dir_shift == 0 and cycling_mode.time_lock == False:
         player.speed = 1
         if player.stamina < 65:
             player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
@@ -150,7 +150,7 @@ def use_stamina(player):
 
 
 def player_move(player):
-    if play_mode.time_lock == False and player.stamina_lock == False:
+    if cycling_mode.time_lock == False and player.stamina_lock == False:
         player.frame = (player.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 12
         player.x += player.dirX * RUN_SPEED_PPS * game_framework.frame_time * player.speed
         player.y += player.dirY * RUN_SPEED_PPS * game_framework.frame_time * player.speed
@@ -184,7 +184,7 @@ def debug(player):
 
 
 def stamina_recovery(player):
-    if player.stamina < 65 and play_mode.time_lock == False:
+    if player.stamina < 65 and cycling_mode.time_lock == False:
         player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
     if player.stamina_lock == True and player.stamina >= 65:
         player.stamina_lock = False
@@ -236,6 +236,8 @@ class Run:
     def do(player):
         use_stamina(player)
         player_move(player)
+        if player.x >= 1200:
+            player.success = True
         pass
 
     @staticmethod
@@ -283,6 +285,7 @@ class Player:
         self.dirY = 0
         self.speed = 1
         self.stamina = 65
+        self.success = False
         self.die = False
         self.stamina_lock = False
         self.dir_left, self.dir_right, self.dir_up, self.dir_down, self.dir_shift = 0, 0, 0, 0, 0
@@ -299,10 +302,10 @@ class Player:
 
     def draw(self):
         self.state_machine.draw()
-        if play_mode.time_lock == False:
-            self.font.draw(1400 / 2 - 100, 780, f'(Time: {get_time() - play_mode.check_time:.2f})', (255, 0, 0))
-        elif play_mode.time_lock == True:
-            self.font.draw(1400 / 2 - 100, 780, f'(Time: {play_mode.pause_time - play_mode.check_time:.2f})',
+        if cycling_mode.time_lock == False:
+            self.font.draw(1400 / 2 - 100, 780, f'(Time: {get_time() - cycling_mode.check_time:.2f})', (255, 0, 0))
+        elif cycling_mode.time_lock == True:
+            self.font.draw(1400 / 2 - 100, 780, f'(Time: {cycling_mode.pause_time - cycling_mode.check_time:.2f})',
                            (255, 0, 0))
         if self.stamina_lock == True:
             self.font.draw(self.x - 100, self.y + 40, f'Now Groggy...', (0, 0, 255))

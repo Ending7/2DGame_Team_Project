@@ -4,7 +4,7 @@ from pico2d import load_image, draw_rectangle
 
 import game_framework
 import game_world
-import play_mode
+import cycling_mode
 
 
 class Rock:
@@ -19,7 +19,7 @@ class Rock:
         draw_rectangle(*self.get_bb())
 
     def update(self):
-        if play_mode.time_lock == False:
+        if cycling_mode.time_lock == False:
             self.x -= 1 * 100 * game_framework.frame_time * self.speed
         if self.x < 0:
             game_world.remove_object(self)

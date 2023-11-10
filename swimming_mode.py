@@ -7,10 +7,10 @@ import pause_mode
 import title_mode
 from rock import Rock
 from player import Player
-from cycling_map import Cycling_map
 from bridge import Bridge
 from key_explain import Keyexplain
 from stamina_bar import Staminabar
+from swimming_map import Swimming_map
 
 
 def spawn_rock():
@@ -44,22 +44,22 @@ def player_idle():
     player.dirY = 0
     player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
     player.dir_lshift = 0
-    cycling_map.dirX = 0
-    cycling_map.dirY = 0
-    cycling_map.dir_left, cycling_map.dir_right = 0, 0
+    swimming_map.dirX = 0
+    swimming_map.dirY = 0
+    swimming_map.dir_left, swimming_map.dir_right = 0, 0
     player.state_machine.handle_event(('LETS_IDLE', 0))
 
 
 def create_object():
-    global cycling_map
+    global swimming_map
     global bridge
     global player
     global rock
     global keyexplain
     global staminabar
 
-    cycling_map = Cycling_map()
-    game_world.add_object(cycling_map, 0)
+    swimming_map = Swimming_map()
+    game_world.add_object(swimming_map, 0)
     bridge = Bridge()
     game_world.add_object(bridge, 1)
     player = Player()
@@ -85,7 +85,7 @@ def handle_events():
 
 
 def init():
-    global cycling_map
+    global swimming_map
     global bridge
     global player
     global rock
@@ -117,7 +117,6 @@ def update():
     game_world.handle_collision()
     if player.die:
         game_framework.change_mode(gameover_mode)
-
 
 def draw():
     clear_canvas()
