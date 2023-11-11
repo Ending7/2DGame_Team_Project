@@ -18,8 +18,8 @@ class Cycling_map:
         self.image.draw(2000 / 1000 + 950 + self.x, 800 / 2)
 
     def update(self):
-        if cycling_mode.player.stamina_lock == False:
-            self.x -= cycling_mode.player.dirX * RUN_SPEED_PPS * game_framework.frame_time * cycling_mode.player.speed
+        if cycling_mode.cycler.stamina_lock == False:
+            self.x -= cycling_mode.cycler.dirX * RUN_SPEED_PPS * game_framework.frame_time * cycling_mode.cycler.speed
         if self.x <= -500:
             self.x = -500
         elif self.x >= 45:

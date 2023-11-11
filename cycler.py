@@ -69,185 +69,185 @@ def lets_idle(e):
     return e[0] == 'LETS_IDLE'
 
 
-def any_key_down(player, e):
+def any_key_down(cycler, e):
     if right_down(e):
-        player.dir_right = 1
-        player.dirX, player.action = 1, 1
+        cycler.dir_right = 1
+        cycler.dirX, cycler.action = 1, 1
     elif left_down(e):
-        player.dir_left = 1
-        player.dirX, player.action = -1, 1
+        cycler.dir_left = 1
+        cycler.dirX, cycler.action = -1, 1
     elif up_down(e):
-        player.dir_up = 1
-        player.dirY, player.action = 1, 1
+        cycler.dir_up = 1
+        cycler.dirY, cycler.action = 1, 1
     elif down_down(e):
-        player.dir_down = 1
-        player.dirY, player.action = -1, 1
+        cycler.dir_down = 1
+        cycler.dirY, cycler.action = -1, 1
     elif lshift_down(e):
-        player.dir_shift = 1
+        cycler.dir_shift = 1
 
 
-def right_key_up(player, e):
+def right_key_up(cycler, e):
     if right_up(e):
-        player.dir_right = 0
-        player.dirX = 0
-        if player.dir_left == 1:
-            player.dirX, player.action = -1, 1
-        elif player.dir_up == 1:
-            player.dirX, player.dirY, player.action = 0, 1, 1
-        elif player.dir_down == 1:
-            player.dirX, player.dirY, player.action = 0, -1, 1
+        cycler.dir_right = 0
+        cycler.dirX = 0
+        if cycler.dir_left == 1:
+            cycler.dirX, cycler.action = -1, 1
+        elif cycler.dir_up == 1:
+            cycler.dirX, cycler.dirY, cycler.action = 0, 1, 1
+        elif cycler.dir_down == 1:
+            cycler.dirX, cycler.dirY, cycler.action = 0, -1, 1
 
 
-def left_key_up(player, e):
+def left_key_up(cycler, e):
     if left_up(e):
-        player.dir_left = 0
-        player.dirX = 0
-        if player.dir_right == 1:
-            player.dirX, player.action = 1, 1
-        elif player.dir_up == 1:
-            player.dirX, player.dirY, player.action = 0, 1, 1
-        elif player.dir_down == 1:
-            player.dirX, player.dirY, player.action = 0, -1, 1
+        cycler.dir_left = 0
+        cycler.dirX = 0
+        if cycler.dir_right == 1:
+            cycler.dirX, cycler.action = 1, 1
+        elif cycler.dir_up == 1:
+            cycler.dirX, cycler.dirY, cycler.action = 0, 1, 1
+        elif cycler.dir_down == 1:
+            cycler.dirX, cycler.dirY, cycler.action = 0, -1, 1
 
 
-def up_key_up(player, e):
+def up_key_up(cycler, e):
     if up_up(e):
-        player.dir_up = 0
-        player.dirY = 0
-        if player.dir_down == 1:
-            player.dirY, player.action = -1, 1
-        elif player.dir_right == 1:
-            player.dirX, player.dirY, player.action = 1, 0, 1
-        elif player.dir_left == 1:
-            player.dirX, player.dirY, player.action = -1, 0, 1
+        cycler.dir_up = 0
+        cycler.dirY = 0
+        if cycler.dir_down == 1:
+            cycler.dirY, cycler.action = -1, 1
+        elif cycler.dir_right == 1:
+            cycler.dirX, cycler.dirY, cycler.action = 1, 0, 1
+        elif cycler.dir_left == 1:
+            cycler.dirX, cycler.dirY, cycler.action = -1, 0, 1
 
 
-def down_key_up(player, e):
+def down_key_up(cycler, e):
     if down_up(e):
-        player.dir_down = 0
-        player.dirY = 0
-        if player.dir_up == 1:
-            player.dirY, player.action = 1, 1
-        elif player.dir_right == 1:
-            player.dirX, player.dirY, player.action = 1, 0, 1
-        elif player.dir_left == 1:
-            player.dirX, player.dirY, player.action = -1, 0, 1
+        cycler.dir_down = 0
+        cycler.dirY = 0
+        if cycler.dir_up == 1:
+            cycler.dirY, cycler.action = 1, 1
+        elif cycler.dir_right == 1:
+            cycler.dirX, cycler.dirY, cycler.action = 1, 0, 1
+        elif cycler.dir_left == 1:
+            cycler.dirX, cycler.dirY, cycler.action = -1, 0, 1
 
 
-def use_stamina(player):
-    if player.dir_shift == 1 and cycling_mode.time_lock == False:
-        player.speed = 2
-        if player.stamina >= 0:
-            player.stamina -= 1 * RUN_SPEED_PPS * game_framework.frame_time
-    elif player.dir_shift == 0 and cycling_mode.time_lock == False:
-        player.speed = 1
-        if player.stamina < 65:
-            player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
-    if player.stamina <= 0:
-        player.stamina_lock = True
-    elif player.stamina >= 65:
-        player.stamina_lock = False
+def use_stamina(cycler):
+    if cycler.dir_shift == 1 and cycling_mode.time_lock == False:
+        cycler.speed = 2
+        if cycler.stamina >= 0:
+            cycler.stamina -= 1 * RUN_SPEED_PPS * game_framework.frame_time
+    elif cycler.dir_shift == 0 and cycling_mode.time_lock == False:
+        cycler.speed = 1
+        if cycler.stamina < 65:
+            cycler.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
+    if cycler.stamina <= 0:
+        cycler.stamina_lock = True
+    elif cycler.stamina >= 65:
+        cycler.stamina_lock = False
 
 
-def player_move(player):
-    if cycling_mode.time_lock == False and player.stamina_lock == False:
-        player.frame = (player.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 12
-        player.x += player.dirX * RUN_SPEED_PPS * game_framework.frame_time * player.speed
-        player.y += player.dirY * RUN_SPEED_PPS * game_framework.frame_time * player.speed
-    if player.x <= 0 + 32:
-        player.x = 0 + 32
-    if player.x >= 1440 - 74:
-        player.x = 1440 - 74
-    if player.y <= 280:
-        player.y = 280
-    if player.y >= 600:
-        player.y = 600
+def cycler_move(cycler):
+    if cycling_mode.time_lock == False and cycler.stamina_lock == False:
+        cycler.frame = (cycler.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 12
+        cycler.x += cycler.dirX * RUN_SPEED_PPS * game_framework.frame_time * cycler.speed
+        cycler.y += cycler.dirY * RUN_SPEED_PPS * game_framework.frame_time * cycler.speed
+    if cycler.x <= 0 + 32:
+        cycler.x = 0 + 32
+    if cycler.x >= 1440 - 74:
+        cycler.x = 1440 - 74
+    if cycler.y <= 280:
+        cycler.y = 280
+    if cycler.y >= 600:
+        cycler.y = 600
 
 
-def player_move_stop(player):
-    player.dir_X = 0
-    player.dir_y = 0
-    player.dir_shift = 0
-    player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
-    player.speed = 0
+def cycler_move_stop(cycler):
+    cycler.dir_X = 0
+    cycler.dir_y = 0
+    cycler.dir_shift = 0
+    cycler.dir_left, cycler.dir_right, cycler.dir_up, cycler.dir_down = 0, 0, 0, 0
+    cycler.speed = 0
 
 
-def debug(player):
+def debug(cycler):
     print('right:')
-    print(player.dir_right)
+    print(cycler.dir_right)
     print('left:')
-    print(player.dir_left)
+    print(cycler.dir_left)
     print('up:')
-    print(player.dir_up)
+    print(cycler.dir_up)
     print('down:')
-    print(player.dir_down)
+    print(cycler.dir_down)
 
 
-def stamina_recovery(player):
-    if player.stamina < 65 and cycling_mode.time_lock == False:
-        player.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
-    if player.stamina_lock == True and player.stamina >= 65:
-        player.stamina_lock = False
+def stamina_recovery(cycler):
+    if cycler.stamina < 65 and cycling_mode.time_lock == False:
+        cycler.stamina += 1 * RUN_SPEED_PPS * game_framework.frame_time / 2
+    if cycler.stamina_lock == True and cycler.stamina >= 65:
+        cycler.stamina_lock = False
 
 
 class Idle:
     @staticmethod
-    def enter(player, e):
-        player_move_stop(player)
-        debug(player)
+    def enter(cycler, e):
+        cycler_move_stop(cycler)
+        debug(cycler)
         pass
 
     @staticmethod
-    def exit(player, e):
+    def exit(cycler, e):
         pass
 
     @staticmethod
-    def do(player):
-        player.frame = player.frame
-        stamina_recovery(player)
+    def do(cycler):
+        cycler.frame = cycler.frame
+        stamina_recovery(cycler)
 
     @staticmethod
-    def draw(player):
-        player.image.clip_draw(int(player.frame) * 91, player.action * 79, 90, 79, player.x, player.y, 70, 70)
+    def draw(cycler):
+        cycler.image.clip_draw(int(cycler.frame) * 91, cycler.action * 79, 90, 79, cycler.x, cycler.y, 70, 70)
 
 
 # 네방향 모두를 스무스하게 움직이게 하려면 경우의수를 따져봐야 한다.
 class Run:
 
     @staticmethod
-    def enter(player, e):
-        any_key_down(player, e)
-        right_key_up(player, e)
-        left_key_up(player, e)
-        up_key_up(player, e)
-        down_key_up(player, e)
+    def enter(cycler, e):
+        any_key_down(cycler, e)
+        right_key_up(cycler, e)
+        left_key_up(cycler, e)
+        up_key_up(cycler, e)
+        down_key_up(cycler, e)
         if lshift_up(e):
-            player.dir_shift = 0
-        if player.dir_left == 0 and player.dir_right == 0 and player.dir_up == 0 and player.dir_down == 0:
-            player.state_machine.handle_event(('LETS_IDLE', 0))
-        debug(player)
+            cycler.dir_shift = 0
+        if cycler.dir_left == 0 and cycler.dir_right == 0 and cycler.dir_up == 0 and cycler.dir_down == 0:
+            cycler.state_machine.handle_event(('LETS_IDLE', 0))
+        debug(cycler)
         pass
 
     @staticmethod
-    def exit(player, e):
+    def exit(cycler, e):
         pass
 
     @staticmethod
-    def do(player):
-        use_stamina(player)
-        player_move(player)
-        if player.x >= 1200:
-            player.success = True
+    def do(cycler):
+        use_stamina(cycler)
+        cycler_move(cycler)
+        if cycler.x >= 1300:
+            cycler.success = True
         pass
 
     @staticmethod
-    def draw(player):
-        player.image.clip_draw(int(player.frame) * 91, player.action * 79, 90, 79, player.x, player.y, 70, 70)
+    def draw(cycler):
+        cycler.image.clip_draw(int(cycler.frame) * 91, cycler.action * 79, 90, 79, cycler.x, cycler.y, 70, 70)
 
 
 class StateMachine:
-    def __init__(self, player):
-        self.player = player
+    def __init__(self, cycler):
+        self.cycler = cycler
         self.cur_state = Idle
         self.transitions = {
             Idle: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, up_down: Run, up_up: Run,
@@ -257,26 +257,26 @@ class StateMachine:
         }
 
     def start(self):
-        self.cur_state.enter(self.player, ('NONE', 0))
+        self.cur_state.enter(self.cycler, ('NONE', 0))
 
     def update(self):
-        self.cur_state.do(self.player)
+        self.cur_state.do(self.cycler)
 
     def handle_event(self, e):
         for check_event, next_state in self.transitions[self.cur_state].items():
             if check_event(e):
-                self.cur_state.exit(self.player, e)
+                self.cur_state.exit(self.cycler, e)
                 self.cur_state = next_state
-                self.cur_state.enter(self.player, e)
+                self.cur_state.enter(self.cycler, e)
                 return True
 
         return False
 
     def draw(self):
-        self.cur_state.draw(self.player)
+        self.cur_state.draw(self.cycler)
 
 
-class Player:
+class Cycler:
     def __init__(self):
         self.x, self.y = 50, 420
         self.frame = 0
@@ -289,7 +289,7 @@ class Player:
         self.die = False
         self.stamina_lock = False
         self.dir_left, self.dir_right, self.dir_up, self.dir_down, self.dir_shift = 0, 0, 0, 0, 0
-        self.image = load_image('./resource/cycling.png')
+        self.image = load_image('./resource/cycler.png')
         self.font = load_font('./resource/ENCR10B.TTF', 32)
         self.state_machine = StateMachine(self)
         self.state_machine.start()
@@ -317,5 +317,5 @@ class Player:
         return self.x - 30, self.y - 35, self.x + 30, self.y - 30
 
     def handle_collision(self, group, other):
-        if group == 'player:rock':
+        if group == 'cycler:rock':
             self.die = True

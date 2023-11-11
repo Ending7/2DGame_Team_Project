@@ -7,11 +7,11 @@ import pause_mode
 import swimming_mode
 import title_mode
 from rock import Rock
-from player import Player
+from cycler import Cycler
 from cycling_map import Cycling_map
 from bridge import Bridge
 from key_explain import Keyexplain
-from stamina_bar import Staminabar
+from cycler_stamina import Cycler_stamina
 
 
 def spawn_rock():
@@ -23,53 +23,53 @@ def spawn_rock():
     if rock_spawn_time >= 0.5:
         rock = Rock(1500, random.randint(580, 580))
         game_world.add_object(rock, 1)
-        game_world.add_collision_pair('player:rock', None, rock)
+        game_world.add_collision_pair('cycler:rock', None, rock)
 
         rock = Rock(1500, random.randint(260, 260))
         game_world.add_object(rock, 1)
-        game_world.add_collision_pair('player:rock', None, rock)
+        game_world.add_collision_pair('cycler:rock', None, rock)
 
         rock = Rock(1500, random.randint(280, 430))
         game_world.add_object(rock, 1)
-        game_world.add_collision_pair('player:rock', None, rock)
+        game_world.add_collision_pair('cycler:rock', None, rock)
 
         rock = Rock(1500, random.randint(440, 560))
         game_world.add_object(rock, 1)
-        game_world.add_collision_pair('player:rock', None, rock)
+        game_world.add_collision_pair('cycler:rock', None, rock)
 
         rock_init_time = get_time()
 
 
-def player_idle():
-    player.dirX = 0
-    player.dirY = 0
-    player.dir_left, player.dir_right, player.dir_up, player.dir_down = 0, 0, 0, 0
-    player.dir_lshift = 0
+def cycler_idle():
+    cycler.dirX = 0
+    cycler.dirY = 0
+    cycler.dir_left, cycler.dir_right, cycler.dir_up, cycler.dir_down = 0, 0, 0, 0
+    cycler.dir_lshift = 0
     cycling_map.dirX = 0
     cycling_map.dirY = 0
     cycling_map.dir_left, cycling_map.dir_right = 0, 0
-    player.state_machine.handle_event(('LETS_IDLE', 0))
+    cycler.state_machine.handle_event(('LETS_IDLE', 0))
 
 
 def create_object():
     global cycling_map
     global bridge
-    global player
+    global cycler
     global rock
     global keyexplain
-    global staminabar
+    global cycler_stamina
 
     cycling_map = Cycling_map()
     game_world.add_object(cycling_map, 0)
     bridge = Bridge()
     game_world.add_object(bridge, 1)
-    player = Player()
-    game_world.add_object(player, 2)
+    cycler = Cycler()
+    game_world.add_object(cycler, 2)
 
     key_explain = Keyexplain()
     game_world.add_object(key_explain, 3)
-    stamina_bar = Staminabar()
-    game_world.add_object(stamina_bar, 4)
+    cycler_stamina = Cycler_stamina()
+    game_world.add_object(cycler_stamina, 4)
 
 
 def handle_events():
@@ -82,16 +82,16 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_mode(pause_mode)
         else:
-            player.handle_event(event)
+            cycler.handle_event(event)
 
 
 def init():
     global cycling_map
     global bridge
-    global player
+    global cycler
     global rock
     global keyexplain
-    global staminabar
+    global cycler_stamina
     global check_time
     global time_lock
     global rock_init_time
@@ -103,11 +103,11 @@ def init():
     create_object()
 
     # 충돌 상황 등록
-    game_world.add_collision_pair('player:rock', player, None)
+    game_world.add_collision_pair('cycler:rock', cycler, None)
 
 
 def finish():
-    game_world.remove_all_object('player:rock')
+    game_world.remove_all_object('cycler:rock')
     game_world.clear()
     pass
 
@@ -116,9 +116,9 @@ def update():
     spawn_rock()
     game_world.update()
     game_world.handle_collision()
-    if player.die:
+    if cycler.die:
         game_framework.change_mode(gameover_mode)
-    if player.success:
+    if cycler.success:
         game_framework.change_mode(swimming_mode)
 
 def draw():
@@ -133,7 +133,7 @@ def pause():
     global time_lock
     time_lock = True
     pause_time = get_time()
-    player_idle()
+    cycler_idle()
     pass
 
 
