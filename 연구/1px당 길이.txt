@@ -4,3 +4,7 @@
 
 cycle character's width: 50px = 150cm
 cycle character's height: 60px = 180cm
+
+속도: 1시간에 20km 
+
+모든 player sprite 동일 적용

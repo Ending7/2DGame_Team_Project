@@ -1,14 +1,15 @@
 from pico2d import *
+import random
 import game_world
 import game_framework
 import gameover_mode
 import pause_mode
 import title_mode
+from shark import Shark
 from swimmer import Swimmer
 from key_explain import Keyexplain
 from swimmer_stamina import Swimmer_stamina
 from swimming_map import Swimming_map
-
 
 
 def swimmer_idle():
@@ -25,6 +26,7 @@ def swimmer_idle():
 def create_object():
     global swimming_map
     global swimmer
+    global sharks
     global keyexplain
     global swimmer_stamina
 
@@ -33,6 +35,11 @@ def create_object():
 
     swimmer = Swimmer()
     game_world.add_object(swimmer, 2)
+
+    sharks = [Shark(500,random.randint(0,500),random.randint(1,2)) for _ in range(5 )]
+    game_world.add_objects(sharks, 1)
+    for shark in sharks:
+        game_world.add_collision_pair('swimmer:shark', None, shark)
 
     key_explain = Keyexplain()
     game_world.add_object(key_explain, 3)
@@ -71,6 +78,7 @@ def init():
 
 
 def finish():
+    game_world.remove_all_object('swimmer:shark')
     game_world.clear()
     pass
 
@@ -80,6 +88,7 @@ def update():
     game_world.handle_collision()
     if swimmer.die:
         game_framework.change_mode(gameover_mode)
+
 
 def draw():
     clear_canvas()

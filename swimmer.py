@@ -158,10 +158,10 @@ def swimmer_move(swimmer):
         swimmer.x = 0 + 32
     if swimmer.x >= 1440 - 74:
         swimmer.x = 1440 - 74
-    if swimmer.y <= 280:
-        swimmer.y = 280
-    if swimmer.y >= 600:
-        swimmer.y = 600
+    if swimmer.y <= 35:
+        swimmer.y = 35
+    if swimmer.y >= 450:
+        swimmer.y = 450
 
 
 def swimmer_move_stop(swimmer):
@@ -318,7 +318,7 @@ class Swimmer:
         pass
 
     def get_bb(self):
-        return self.x - 25, self.y-20, self.x + 40, self.y + 10
+        return self.x - 25, self.y-15, self.x + 40, self.y + 10
 
     def handle_collision(self, group, other):
         if group == 'swimmer:rock':
