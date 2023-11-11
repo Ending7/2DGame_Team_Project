@@ -321,5 +321,5 @@ class Swimmer:
         return self.x - 25, self.y-15, self.x + 40, self.y + 10
 
     def handle_collision(self, group, other):
-        if group == 'swimmer:rock':
+        if group == 'swimmer:shark':
             self.die = True

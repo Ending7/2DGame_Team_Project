@@ -15,12 +15,8 @@ class Swimming_map:
         self.x = 0
 
     def draw(self):
-        self.image.draw(2000 / 1000 + 950 + self.x, 800 / 2)
+        self.image.draw(1400/2,800/2)
 
     def update(self):
-        if swimming_mode.swimmer.stamina_lock == False:
-            self.x -= swimming_mode.swimmer.dirX * RUN_SPEED_PPS * game_framework.frame_time * swimming_mode.swimmer.speed
-        if self.x <= -500:
-            self.x = -500
-        elif self.x >= 45:
-            self.x = 45
+        pass
+

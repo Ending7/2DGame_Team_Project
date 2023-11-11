@@ -35,9 +35,11 @@ def create_object():
 
     swimmer = Swimmer()
     game_world.add_object(swimmer, 2)
+    game_world.add_collision_pair('swimmer:shark', swimmer, None)
 
-    sharks = [Shark(500,random.randint(0,500),random.randint(1,2)) for _ in range(5 )]
+    sharks = [Shark(random.randint(200,1200),random.randint(0,500),random.randint(1,2)) for _ in range(25)]
     game_world.add_objects(sharks, 1)
+
     for shark in sharks:
         game_world.add_collision_pair('swimmer:shark', None, shark)
 
@@ -88,6 +90,8 @@ def update():
     game_world.handle_collision()
     if swimmer.die:
         game_framework.change_mode(gameover_mode)
+    if swimmer.success:
+        game_framework.change_mode(title_mode)
 
 
 def draw():

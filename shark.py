@@ -25,7 +25,7 @@ class Shark:
             self.image.clip_draw(int(self.frame) * 56, self.action * 90, 56, 90, self.x, self.y, 95/self.size, 95/self.size)
             draw_rectangle(*self.get_bb())
         elif self.action == 1:
-            self.image.clip_draw(int(self.frame) *56 , self.action * 90, 56, 90, self.x, self.y, 95/self.size, 95/self.size)
+            self.image.clip_draw(int(self.frame) * 56 , self.action * 90, 56, 90, self.x, self.y, 95/self.size, 95/self.size)
             draw_rectangle(*self.get_bb())
 
 
@@ -33,9 +33,9 @@ class Shark:
         if swimming_mode.time_lock == False:
             self.frame = (self.frame + FRAMES_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
             if self.action == 0:
-                self.y -= 1 * 10 * game_framework.frame_time * self.speed
+                self.y -= 1 * 20 * game_framework.frame_time * self.speed
             elif self.action == 1:
-                self.y += 1 * 10 * game_framework.frame_time * self.speed
+                self.y += 1 * 20 * game_framework.frame_time * self.speed
 
             if self.y <= 50:
                 self.action = 1
@@ -44,7 +44,9 @@ class Shark:
 
 
     def get_bb(self):
-        return self.x - 20, self.y - 20, self.x + 20, self.y + 20
-
+        if self.size == 2:
+            return self.x - 20, self.y - 20, self.x + 20, self.y + 20
+        elif self.size == 1:
+            return self.x - 30, self.y - 40, self.x + 40, self.y + 30
     def handle_collision(self, group, other):
         pass
