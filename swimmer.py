@@ -240,7 +240,7 @@ class Run:
     def do(swimmer):
         use_stamina(swimmer)
         swimmer_move(swimmer)
-        if swimmer.x >= 1300:
+        if swimmer.x >= 1350:
             swimmer.success = True
         pass
 
