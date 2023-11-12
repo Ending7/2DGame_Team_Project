@@ -48,5 +48,6 @@ class Shark:
             return self.x - 20, self.y - 20, self.x + 20, self.y + 20
         elif self.size == 1:
             return self.x - 30, self.y - 40, self.x + 40, self.y + 30
+
     def handle_collision(self, group, other):
         pass

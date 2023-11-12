@@ -6,7 +6,7 @@ import gameclear_mode
 import gameover_mode
 import pause_mode
 import title_mode
-from level3.shark import Shark
+from level3.splinter import Splinter
 from level3.runner import Runner
 from key_explain import Keyexplain
 from level3.runner_stamina import Runner_stamina
@@ -27,7 +27,7 @@ def runner_idle():
 def create_object():
     global running_map
     global runner
-    global sharks
+    global splinters
     global keyexplain
     global runner_stamina
 
@@ -36,13 +36,15 @@ def create_object():
 
     runner = Runner()
     game_world.add_object(runner, 2)
-    game_world.add_collision_pair('runner:shark', runner, None)
+    game_world.add_collision_pair('runner:splinter', runner, None)
 
-    sharks = [Shark(random.randint(200,1200),random.randint(0,500),random.randint(1,2)) for _ in range(10)]
-    game_world.add_objects(sharks, 1)
-
-    for shark in sharks:
-        game_world.add_collision_pair('runner:shark', None, shark)
+    splinters = [Splinter(random.randint(400, 400), random.randint(0, 400), random.randint(1, 2), 0) for _ in range(50)]
+    splinters += [Splinter(random.randint(200, 200), random.randint(0, 400), random.randint(1, 2), 3) for _ in range(50)]
+    splinters += [Splinter(random.randint(600, 900), random.randint(0, 400), random.randint(1, 2), random.randint(0, 6)) for _ in range(30)]
+    splinters += [Splinter(random.randint(900, 1200), random.randint(0, 400), random.randint(1, 2), random.randint(0, 6)) for _ in range(30)]
+    game_world.add_objects(splinters, 1)
+    for splinter in splinters:
+        game_world.add_collision_pair('runner:splinter', None, splinter)
 
     key_explain = Keyexplain()
     game_world.add_object(key_explain, 3)
@@ -81,7 +83,7 @@ def init():
 
 
 def finish():
-    game_world.remove_all_object('runner:shark')
+    game_world.remove_all_object('runner:splinter')
     game_world.clear()
     pass
 
