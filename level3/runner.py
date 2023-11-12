@@ -12,7 +12,7 @@ RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)  # 초당 몇 픽셀만큼 움
 
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION  # 2.0이게 뭘 하는 것? 프레임 속력2 1초에 2번
-FRAME_PER_ACTION = 6
+FRAME_PER_ACTION = 10
 
 
 # state event check
@@ -151,7 +151,7 @@ def use_stamina(runner):
 
 def runner_move(runner):
     if running_mode.time_lock == False and runner.stamina_lock == False:
-        runner.frame = (runner.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 6
+        runner.frame = (runner.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 10
         runner.x += runner.dirX * RUN_SPEED_PPS * game_framework.frame_time * runner.speed
         runner.y += runner.dirY * RUN_SPEED_PPS * game_framework.frame_time * runner.speed
     if runner.x <= 0 + 32:
@@ -194,7 +194,6 @@ class Idle:
     @staticmethod
     def enter(runner, e):
         runner.frame = 0
-        runner.action = 4
         runner_move_stop(runner)
         debug(runner)
         pass
@@ -205,12 +204,12 @@ class Idle:
 
     @staticmethod
     def do(runner):
-        runner.frame = (runner.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 6
+        runner.frame = 0
         stamina_recovery(runner)
 
     @staticmethod
     def draw(runner):
-        runner.image.clip_draw(int(runner.frame) * 220, runner.action * 240, 220, 240, runner.x, runner.y, 95, 95)
+        runner.image.clip_draw(int(runner.frame) * 47, 1 * 59, 47, 59, runner.x, runner.y, 100,100)
 
 
 # 네방향 모두를 스무스하게 움직이게 하려면 경우의수를 따져봐야 한다.
@@ -218,8 +217,7 @@ class Run:
 
     @staticmethod
     def enter(runner, e):
-        runner.frame = 0
-        runner.action = 1
+        runner.frame = runner.frame
         any_key_down(runner, e)
         right_key_up(runner, e)
         left_key_up(runner, e)
@@ -246,7 +244,7 @@ class Run:
 
     @staticmethod
     def draw(runner):
-        runner.image.clip_draw(int(runner.frame) * 224, runner.action * 260, 224, 260, runner.x, runner.y, 95, 100)
+        runner.image.clip_draw(int(runner.frame) * 47, 0 * 59, 47, 59, runner.x, runner.y, 100, 100)
 
 
 class StateMachine:
@@ -293,7 +291,7 @@ class Runner:
         self.die = False
         self.stamina_lock = False
         self.dir_left, self.dir_right, self.dir_up, self.dir_down, self.dir_shift = 0, 0, 0, 0, 0
-        self.image = load_image('./resource/swimmer.png')
+        self.image = load_image('./resource/runner.png')
         self.font = load_font('./resource/ENCR10B.TTF', 32)
         self.state_machine = StateMachine(self)
         self.state_machine.start()

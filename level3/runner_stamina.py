@@ -8,7 +8,7 @@ class Runner_stamina:
 
     def draw(self):
         self.image.draw(running_mode.runner.x - 25 + running_mode.runner.stamina / 2
-                        , running_mode.runner.y + 30, 0 + running_mode.runner.stamina, 10)
+                        , running_mode.runner.y + 50, 0 + running_mode.runner.stamina, 10)
 
     def update(self):
         pass
