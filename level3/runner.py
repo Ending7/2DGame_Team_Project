@@ -193,6 +193,7 @@ def stamina_recovery(runner):
 class Idle:
     @staticmethod
     def enter(runner, e):
+        runner.action = 1
         runner.frame = 0
         runner_move_stop(runner)
         debug(runner)
@@ -205,6 +206,7 @@ class Idle:
     @staticmethod
     def do(runner):
         runner.frame = 0
+        runner.action = 1
         stamina_recovery(runner)
 
     @staticmethod
@@ -218,6 +220,7 @@ class Run:
     @staticmethod
     def enter(runner, e):
         runner.frame = runner.frame
+        runner.action = 0
         any_key_down(runner, e)
         right_key_up(runner, e)
         left_key_up(runner, e)
@@ -236,6 +239,7 @@ class Run:
 
     @staticmethod
     def do(runner):
+        runner.action = 0
         use_stamina(runner)
         runner_move(runner)
         if runner.x >= 1350:
@@ -316,7 +320,10 @@ class Runner:
         pass
 
     def get_bb(self):
-        return self.x - 25, self.y-15, self.x + 40, self.y + 10
+        if self.action == 1:
+            return self.x - 15, self.y-45, self.x + 15, self.y - 35
+        elif self.action == 0:
+            return self.x - 30, self.y-45, self.x + 30, self.y - 35
 
     def handle_collision(self, group, other):
         if group == 'runner:splinter':
