@@ -1,8 +1,8 @@
 from pico2d import load_image
 
-class Swimming_map:
+class Running_map:
     def __init__(self):
-        self.image = load_image('./resource/swimmingmap.png')
+        self.image = load_image('./resource/runningmap.png')
         self.x = 0
 
     def draw(self):

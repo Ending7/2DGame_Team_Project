@@ -2,52 +2,52 @@ from pico2d import *
 import random
 import game_world
 import game_framework
+import gameclear_mode
 import gameover_mode
 import pause_mode
 import title_mode
-from level2.shark import Shark
-from level2.swimmer import Swimmer
+from level3.shark import Shark
+from level3.runner import Runner
 from key_explain import Keyexplain
-from level2.swimmer_stamina import Swimmer_stamina
-from level2.swimming_map import Swimming_map
-from level3 import running_mode
+from level3.runner_stamina import Runner_stamina
+from level3.running_map import Running_map
 
 
-def swimmer_idle():
-    swimmer.dirX = 0
-    swimmer.dirY = 0
-    swimmer.dir_left, swimmer.dir_right, swimmer.dir_up, swimmer.dir_down = 0, 0, 0, 0
-    swimmer.dir_lshift = 0
-    swimming_map.dirX = 0
-    swimming_map.dirY = 0
-    swimming_map.dir_left, swimming_map.dir_right = 0, 0
-    swimmer.state_machine.handle_event(('LETS_IDLE', 0))
+def runner_idle():
+    runner.dirX = 0
+    runner.dirY = 0
+    runner.dir_left, runner.dir_right, runner.dir_up, runner.dir_down = 0, 0, 0, 0
+    runner.dir_lshift = 0
+    running_map.dirX = 0
+    running_map.dirY = 0
+    running_map.dir_left, running_map.dir_right = 0, 0
+    runner.state_machine.handle_event(('LETS_IDLE', 0))
 
 
 def create_object():
-    global swimming_map
-    global swimmer
+    global running_map
+    global runner
     global sharks
     global keyexplain
-    global swimmer_stamina
+    global runner_stamina
 
-    swimming_map = Swimming_map()
-    game_world.add_object(swimming_map, 0)
+    running_map = Running_map()
+    game_world.add_object(running_map, 0)
 
-    swimmer = Swimmer()
-    game_world.add_object(swimmer, 2)
-    game_world.add_collision_pair('swimmer:shark', swimmer, None)
+    runner = Runner()
+    game_world.add_object(runner, 2)
+    game_world.add_collision_pair('runner:shark', runner, None)
 
-    sharks = [Shark(random.randint(200,1200),random.randint(0,500),random.randint(1,2)) for _ in range(25)]
+    sharks = [Shark(random.randint(200,1200),random.randint(0,500),random.randint(1,2)) for _ in range(10)]
     game_world.add_objects(sharks, 1)
 
     for shark in sharks:
-        game_world.add_collision_pair('swimmer:shark', None, shark)
+        game_world.add_collision_pair('runner:shark', None, shark)
 
     key_explain = Keyexplain()
     game_world.add_object(key_explain, 3)
-    swimmer_stamina = Swimmer_stamina()
-    game_world.add_object(swimmer_stamina, 4)
+    runner_stamina = Runner_stamina()
+    game_world.add_object(runner_stamina, 4)
 
 
 def handle_events():
@@ -60,15 +60,15 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_mode(pause_mode)
         else:
-            swimmer.handle_event(event)
+            runner.handle_event(event)
 
 
 def init():
-    global swimming_map
+    global running_map
     global bridge
-    global swimmer
+    global runner
     global keyexplain
-    global swimmer_stamina
+    global runner_stamina
     global check_time
     global time_lock
 
@@ -81,7 +81,7 @@ def init():
 
 
 def finish():
-    game_world.remove_all_object('swimmer:shark')
+    game_world.remove_all_object('runner:shark')
     game_world.clear()
     pass
 
@@ -89,10 +89,10 @@ def finish():
 def update():
     game_world.update()
     game_world.handle_collision()
-    if swimmer.die:
+    if runner.die:
         game_framework.change_mode(gameover_mode)
-    if swimmer.success:
-        game_framework.change_mode(running_mode)
+    if runner.success:
+        game_framework.change_mode(gameclear_mode)
 
 
 def draw():
@@ -107,7 +107,7 @@ def pause():
     global time_lock
     time_lock = True
     pause_time = get_time()
-    swimmer_idle()
+    runner_idle()
     pass
 
 

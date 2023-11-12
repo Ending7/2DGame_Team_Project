@@ -4,8 +4,9 @@ from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1, SDLK_2, SDLK_3
 import game_framework
 import howtoplay_mode
 from level1 import cycling_mode
+from level2 import swimming_mode
+from level3 import running_mode
 import rankingboard_mode
-
 
 def init():
     global image
@@ -34,7 +35,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_1):
-            game_framework.change_mode(cycling_mode)
+            game_framework.change_mode(running_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_2):
             game_framework.change_mode(howtoplay_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_3):
