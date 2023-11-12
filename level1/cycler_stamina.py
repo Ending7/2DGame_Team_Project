@@ -1,5 +1,5 @@
 from pico2d import load_image
-import cycling_mode
+from level1 import cycling_mode
 
 
 class Cycler_stamina:

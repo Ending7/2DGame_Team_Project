@@ -1,6 +1,4 @@
 from pico2d import load_image
-import game_framework
-import swimming_mode
 
 PIXEL_PER_METER = (10.0 / 0.3)  # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
 RUN_SPEED_KMPH = 10.0  # Km / Hour 한 시간에 마라톤 선수가 대략 20km를 달린다.

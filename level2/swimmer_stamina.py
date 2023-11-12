@@ -1,5 +1,5 @@
 from pico2d import load_image
-import swimming_mode
+from level2 import swimming_mode
 
 
 class Swimmer_stamina:

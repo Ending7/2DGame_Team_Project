@@ -2,11 +2,9 @@ from pico2d import get_events, load_image, clear_canvas, update_canvas
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1, SDLK_2, SDLK_3
 
 import game_framework
-import game_world
 import howtoplay_mode
-import cycling_mode
+from level1 import cycling_mode
 import rankingboard_mode
-import swimming_mode
 
 
 def init():
@@ -36,7 +34,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_1):
-            game_framework.change_mode(swimming_mode)
+            game_framework.change_mode(cycling_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_2):
             game_framework.change_mode(howtoplay_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_3):

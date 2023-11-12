@@ -4,14 +4,14 @@ import game_world
 import game_framework
 import gameover_mode
 import pause_mode
-import swimming_mode
+from level2 import swimming_mode
 import title_mode
-from rock import Rock
-from cycler import Cycler
-from cycling_map import Cycling_map
-from bridge import Bridge
+from level1.rock import Rock
+from level1.cycler import Cycler
+from level1.cycling_map import Cycling_map
+from level1.bridge import Bridge
 from key_explain import Keyexplain
-from cycler_stamina import Cycler_stamina
+from level1.cycler_stamina import Cycler_stamina
 
 
 def spawn_rock():

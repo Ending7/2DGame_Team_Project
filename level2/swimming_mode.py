@@ -5,11 +5,11 @@ import game_framework
 import gameover_mode
 import pause_mode
 import title_mode
-from shark import Shark
-from swimmer import Swimmer
+from level2.shark import Shark
+from level2.swimmer import Swimmer
 from key_explain import Keyexplain
-from swimmer_stamina import Swimmer_stamina
-from swimming_map import Swimming_map
+from level2.swimmer_stamina import Swimmer_stamina
+from level2.swimming_map import Swimming_map
 
 
 def swimmer_idle():
