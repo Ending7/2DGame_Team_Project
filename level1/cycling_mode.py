@@ -25,7 +25,7 @@ def spawn_rock():
         rock = Rock(1500, random.randint(580, 580))
         game_world.add_object(rock, 1)
         game_world.add_collision_pair('cycler:rock', None, rock)
-
+        game_world.add_collision_pair('rock:cliff', rock, None)
         # rock = Rock(1500, random.randint(260, 260))
         # game_world.add_object(rock, 1)
         # game_world.add_collision_pair('cycler:rock', None, rock)
@@ -61,7 +61,7 @@ def spawn_cliff():
     for cliff in cliffs:
         game_world.add_object(cliff, 1)
         game_world.add_collision_pair('cycler:cliff', None, cliff)
-
+        game_world.add_collision_pair('rock:cliff', None, cliff)
 
 def cycler_idle():
     cycler.dirX = 0
@@ -135,6 +135,8 @@ def init():
 
 def finish():
     game_world.remove_all_object('cycler:rock')
+    game_world.remove_all_object('cycler:cliff')
+    game_world.remove_all_object('rock:cliff')
     game_world.clear()
     pass
 
