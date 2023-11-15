@@ -319,3 +319,5 @@ class Cycler:
     def handle_collision(self, group, other):
         if group == 'cycler:rock':
             self.die = True
+        if group == 'cycler:cliff':
+            self.die = True

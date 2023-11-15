@@ -40,9 +40,10 @@ def spawn_rock():
 
         rock_init_time = get_time()
 
+
 def spawn_cliff():
     cliffs = []
-    cliffs.append(Cliff(205,358,302,450))
+    cliffs.append(Cliff(205, 358, 302, 450))
     cliffs.append(Cliff(148, 525, 188, 573))
     cliffs.append(Cliff(375, 480, 415, 528))
     cliffs.append(Cliff(430, 395, 470, 443))
@@ -56,9 +57,11 @@ def spawn_cliff():
     cliffs.append(Cliff(1055, 360, 1095, 428))
     cliffs.append(Cliff(1167, 365, 1208, 461))
     cliffs.append(Cliff(1167, 330, 1208, 355))
+
     for cliff in cliffs:
         game_world.add_object(cliff, 1)
         game_world.add_collision_pair('cycler:cliff', None, cliff)
+
 
 def cycler_idle():
     cycler.dirX = 0
@@ -127,6 +130,7 @@ def init():
 
     # 충돌 상황 등록
     game_world.add_collision_pair('cycler:rock', cycler, None)
+    game_world.add_collision_pair('cycler:cliff', cycler,None)
 
 
 def finish():
@@ -143,6 +147,7 @@ def update():
         game_framework.change_mode(gameover_mode)
     if cycler.success:
         game_framework.change_mode(swimming_mode)
+
 
 def draw():
     clear_canvas()
