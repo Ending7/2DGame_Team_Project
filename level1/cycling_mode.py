@@ -25,15 +25,15 @@ def spawn_rock():
         rock = Rock(1500, random.randint(580, 580))
         game_world.add_object(rock, 1)
         game_world.add_collision_pair('cycler:rock', None, rock)
-        game_world.add_collision_pair('rock:cliff', rock, None)
-        # rock = Rock(1500, random.randint(260, 260))
-        # game_world.add_object(rock, 1)
-        # game_world.add_collision_pair('cycler:rock', None, rock)
-        #
-        # rock = Rock(1500, random.randint(280, 430))
-        # game_world.add_object(rock, 1)
-        # game_world.add_collision_pair('cycler:rock', None, rock)
-        #
+        game_world.add_collision_pair('cliff:rock', None, rock)
+        rock = Rock(1500, random.randint(250, 250))
+        game_world.add_object(rock, 1)
+        game_world.add_collision_pair('cycler:rock', None, rock)
+        game_world.add_collision_pair('cliff:rock', None, rock)
+        rock = Rock(1500, random.randint(280, 430))
+        game_world.add_object(rock, 1)
+        game_world.add_collision_pair('cycler:rock', None, rock)
+        game_world.add_collision_pair('cliff:rock', None, rock)
         # rock = Rock(1500, random.randint(440, 560))
         # game_world.add_object(rock, 1)
         # game_world.add_collision_pair('cycler:rock', None, rock)
@@ -61,7 +61,7 @@ def spawn_cliff():
     for cliff in cliffs:
         game_world.add_object(cliff, 1)
         game_world.add_collision_pair('cycler:cliff', None, cliff)
-        game_world.add_collision_pair('rock:cliff', None, cliff)
+        game_world.add_collision_pair('cliff:rock', cliff, None)
 
 def cycler_idle():
     cycler.dirX = 0
@@ -88,6 +88,8 @@ def create_object():
     game_world.add_object(bridge, 1)
     cycler = Cycler()
     game_world.add_object(cycler, 2)
+    game_world.add_collision_pair('cycler:rock', cycler, None)
+    game_world.add_collision_pair('cycler:cliff', cycler,None)
 
     key_explain = Keyexplain()
     game_world.add_object(key_explain, 3)
@@ -128,15 +130,12 @@ def init():
     create_object()
     spawn_cliff()
 
-    # 충돌 상황 등록
-    game_world.add_collision_pair('cycler:rock', cycler, None)
-    game_world.add_collision_pair('cycler:cliff', cycler,None)
 
 
 def finish():
     game_world.remove_all_object('cycler:rock')
     game_world.remove_all_object('cycler:cliff')
-    game_world.remove_all_object('rock:cliff')
+    game_world.remove_all_object('cliff:rock')
     game_world.clear()
     pass
 

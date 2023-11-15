@@ -158,10 +158,10 @@ def cycler_move(cycler):
         cycler.x = 0 + 32
     if cycler.x >= 1440 - 74:
         cycler.x = 1440 - 74
-    if cycler.y <= 280:
-        cycler.y = 280
-    if cycler.y >= 600:
-        cycler.y = 600
+    if cycler.y <= 270:
+        cycler.y = 270
+    if cycler.y >= 603:
+        cycler.y = 603
 
 
 def cycler_move_stop(cycler):
