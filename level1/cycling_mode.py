@@ -34,9 +34,10 @@ def spawn_rock():
         game_world.add_object(rock, 1)
         game_world.add_collision_pair('cycler:rock', None, rock)
         game_world.add_collision_pair('cliff:rock', None, rock)
-        # rock = Rock(1500, random.randint(440, 560))
-        # game_world.add_object(rock, 1)
-        # game_world.add_collision_pair('cycler:rock', None, rock)
+        rock = Rock(1500, random.randint(440, 560))
+        game_world.add_object(rock, 1)
+        game_world.add_collision_pair('cycler:rock', None, rock)
+        game_world.add_collision_pair('cliff:rock', None, rock)
 
         rock_init_time = get_time()
 
