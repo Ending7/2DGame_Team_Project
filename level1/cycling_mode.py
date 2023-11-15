@@ -4,6 +4,7 @@ import game_world
 import game_framework
 import gameover_mode
 import pause_mode
+from level1.cliff import Cliff
 from level2 import swimming_mode
 import title_mode
 from level1.rock import Rock
@@ -20,25 +21,44 @@ def spawn_rock():
 
     rock_spawn_time = get_time() - rock_init_time
 
-    if rock_spawn_time >= 0.5:
+    if rock_spawn_time >= 1.0:
         rock = Rock(1500, random.randint(580, 580))
         game_world.add_object(rock, 1)
         game_world.add_collision_pair('cycler:rock', None, rock)
 
-        rock = Rock(1500, random.randint(260, 260))
-        game_world.add_object(rock, 1)
-        game_world.add_collision_pair('cycler:rock', None, rock)
-
-        rock = Rock(1500, random.randint(280, 430))
-        game_world.add_object(rock, 1)
-        game_world.add_collision_pair('cycler:rock', None, rock)
-
-        rock = Rock(1500, random.randint(440, 560))
-        game_world.add_object(rock, 1)
-        game_world.add_collision_pair('cycler:rock', None, rock)
+        # rock = Rock(1500, random.randint(260, 260))
+        # game_world.add_object(rock, 1)
+        # game_world.add_collision_pair('cycler:rock', None, rock)
+        #
+        # rock = Rock(1500, random.randint(280, 430))
+        # game_world.add_object(rock, 1)
+        # game_world.add_collision_pair('cycler:rock', None, rock)
+        #
+        # rock = Rock(1500, random.randint(440, 560))
+        # game_world.add_object(rock, 1)
+        # game_world.add_collision_pair('cycler:rock', None, rock)
 
         rock_init_time = get_time()
 
+def spawn_cliff():
+    cliffs = []
+    cliffs.append(Cliff(205,358,302,450))
+    cliffs.append(Cliff(148, 525, 188, 573))
+    cliffs.append(Cliff(375, 480, 415, 528))
+    cliffs.append(Cliff(430, 395, 470, 443))
+    cliffs.append(Cliff(488, 320, 528, 372))
+    cliffs.append(Cliff(547, 238, 585, 288))
+    cliffs.append(Cliff(660, 395, 697, 495))
+    cliffs.append(Cliff(771, 323, 810, 374))
+    cliffs.append(Cliff(826, 383, 866, 433))
+    cliffs.append(Cliff(885, 455, 925, 505))
+    cliffs.append(Cliff(885, 455, 925, 505))
+    cliffs.append(Cliff(1055, 360, 1095, 428))
+    cliffs.append(Cliff(1167, 365, 1208, 461))
+    cliffs.append(Cliff(1167, 330, 1208, 355))
+    for cliff in cliffs:
+        game_world.add_object(cliff, 1)
+        game_world.add_collision_pair('cycler:cliff', None, cliff)
 
 def cycler_idle():
     cycler.dirX = 0
@@ -90,6 +110,7 @@ def init():
     global bridge
     global cycler
     global rock
+    global cliff
     global keyexplain
     global cycler_stamina
     global check_time
@@ -99,8 +120,10 @@ def init():
     time_lock = False
     check_time = get_time()
     rock_init_time = get_time()
+
     # 객체 생성
     create_object()
+    spawn_cliff()
 
     # 충돌 상황 등록
     game_world.add_collision_pair('cycler:rock', cycler, None)
