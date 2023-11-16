@@ -10,6 +10,7 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 6
 FRAMES_PER_TIME = ACTION_PER_TIME * FRAMES_PER_ACTION
 
+
 class Shark:
     def __init__(self, sharkX, sharkY, size):
         self.image = load_image('./resource/shark.png')
@@ -18,16 +19,21 @@ class Shark:
         self.x = sharkX
         self.y = sharkY
         self.size = size
-        self.speed = random.randint(1, 10)
+        self.speed = 0
+        if size == 1:
+            self.speed = random.randint(3, 3)
+        elif size == 2:
+            self.speed = random.randint(7, 7)
 
     def draw(self):
         if self.action == 0:
-            self.image.clip_draw(int(self.frame) * 56, self.action * 90, 56, 90, self.x, self.y, 95/self.size, 95/self.size)
+            self.image.clip_draw(int(self.frame) * 56, self.action * 90, 56, 90, self.x, self.y, 95 / self.size,
+                                 95 / self.size)
             draw_rectangle(*self.get_bb())
         elif self.action == 1:
-            self.image.clip_draw(int(self.frame) * 56 , self.action * 90, 56, 90, self.x, self.y, 95/self.size, 95/self.size)
+            self.image.clip_draw(int(self.frame) * 56, self.action * 90, 56, 90, self.x, self.y, 95 / self.size,
+                                 95 / self.size)
             draw_rectangle(*self.get_bb())
-
 
     def update(self):
         if swimming_mode.time_lock == False:
@@ -41,7 +47,6 @@ class Shark:
                 self.action = 1
             elif self.y >= 450:
                 self.action = 0
-
 
     def get_bb(self):
         if self.size == 2:

@@ -38,7 +38,16 @@ def create_object():
     game_world.add_object(swimmer, 2)
     game_world.add_collision_pair('swimmer:shark', swimmer, None)
 
-    sharks = [Shark(random.randint(200,1200),random.randint(0,500),random.randint(1,2)) for _ in range(25)]
+    # sharks = [Shark(random.randint(200,1200),random.randint(0,500),random.randint(1,2)) for _ in range(25)]
+    sharks = [Shark(random.randint(150, 150), random.randint(0, 500), random.randint(1, 1)) for _ in range(5)]
+    sharks += [Shark(random.randint(290, 290), random.randint(0, 500), random.randint(2, 2)) for _ in range(3)]
+    sharks += [Shark(random.randint(420, 420), random.randint(0, 500), random.randint(2, 2)) for _ in range(3)]
+    sharks += [Shark(random.randint(550, 550), random.randint(0, 500), random.randint(1, 1)) for _ in range(5)]
+    sharks += [Shark(random.randint(730, 730), random.randint(0, 500), random.randint(2, 2)) for _ in range(3)]
+    sharks += [Shark(random.randint(880, 880), random.randint(0, 500), random.randint(1, 1)) for _ in range(5)]
+    sharks += [Shark(random.randint(1030, 1030), random.randint(0, 500), random.randint(2, 2)) for _ in range(3)]
+    sharks += [Shark(random.randint(1160, 1160), random.randint(0, 500), random.randint(2, 2)) for _ in range(3)]
+    sharks += [Shark(random.randint(1300, 1300), random.randint(0, 500), random.randint(1, 1)) for _ in range(5)]
     game_world.add_objects(sharks, 1)
 
     for shark in sharks:
