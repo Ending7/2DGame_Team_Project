@@ -24,6 +24,76 @@ def runner_idle():
     runner.state_machine.handle_event(('LETS_IDLE', 0))
 
 
+def create_outside_splinter():
+    splinters = []
+    start = 130
+    for _ in range(8):
+        splinters.append(Splinter(start, 410, 1, 0))
+        start += 200
+    start = 130
+    for _ in range(8):
+        splinters.append(Splinter(start, 30, 1, 0))
+        start += 200
+
+    game_world.add_objects(splinters, 1)
+    for splinter in splinters:
+        game_world.add_collision_pair('runner:splinter', None, splinter)
+
+
+def create_inside_splinter():
+    splinters = []
+    start = 130
+
+    for _ in range(8):
+        splinters.append(Splinter(start, 360, 2, 5))
+        start += 50
+    start = 130
+    for _ in range(8):
+        splinters.append(Splinter(start, 50, 2, 4))
+        start += 50
+    start = 85
+    for _ in range(9):
+        splinters.append(Splinter(130, start, 2, 3))
+        start += 30
+    start = 85
+    for _ in range(9):
+        splinters.append(Splinter(250, start, 2, 2))
+        start += 30
+    start = 85
+    for _ in range(9):
+        splinters.append(Splinter(370, start, 2, 1))
+        start += 30
+    start = 85
+    for _ in range(9):
+        splinters.append(Splinter(480, start, 2, 0))
+        start += 30
+
+    game_world.add_objects(splinters, 1)
+    for splinter in splinters:
+        game_world.add_collision_pair('runner:splinter', None, splinter)
+
+def create_inside2_splinter():
+    splinters = []
+    start = 10
+    for _ in range(14):
+        splinters.append(Splinter(635, start, 2, random.randint(0,6)))
+        start += 30
+    start = 10
+    for _ in range(14):
+        splinters.append(Splinter(835, start, 2, random.randint(0, 6)))
+        start += 30
+    start = 10
+    for _ in range(14):
+        splinters.append(Splinter(1035, start, 2, random.randint(0, 6)))
+        start += 30
+    start = 10
+    for _ in range(14):
+        splinters.append(Splinter(1235, start, 2, random.randint(0, 6)))
+        start += 30
+    game_world.add_objects(splinters, 1)
+    for splinter in splinters:
+        game_world.add_collision_pair('runner:splinter', None, splinter)
+
 def create_object():
     global running_map
     global runner
@@ -37,14 +107,6 @@ def create_object():
     runner = Runner()
     game_world.add_object(runner, 2)
     game_world.add_collision_pair('runner:splinter', runner, None)
-
-    splinters = [Splinter(random.randint(400, 400), random.randint(0, 400), random.randint(1, 2), 0) for _ in range(50)]
-    splinters += [Splinter(random.randint(200, 200), random.randint(0, 400), random.randint(1, 2), 3) for _ in range(50)]
-    splinters += [Splinter(random.randint(600, 900), random.randint(0, 400), random.randint(1, 2), random.randint(0, 6)) for _ in range(30)]
-    splinters += [Splinter(random.randint(900, 1200), random.randint(0, 400), random.randint(1, 2), random.randint(0, 6)) for _ in range(30)]
-    game_world.add_objects(splinters, 1)
-    for splinter in splinters:
-        game_world.add_collision_pair('runner:splinter', None, splinter)
 
     key_explain = Keyexplain()
     game_world.add_object(key_explain, 3)
@@ -78,9 +140,9 @@ def init():
     check_time = get_time()
     # 객체 생성
     create_object()
-
-    # 충돌 상황 등록
-
+    create_outside_splinter()
+    create_inside_splinter()
+    create_inside2_splinter()
 
 def finish():
     game_world.remove_all_object('runner:splinter')

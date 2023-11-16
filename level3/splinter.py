@@ -5,7 +5,7 @@ from pico2d import load_image, draw_rectangle
 import game_framework
 from level3 import running_mode
 
-TIME_PER_ACTION = 4.0
+TIME_PER_ACTION = 1.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 6
 FRAMES_PER_TIME = ACTION_PER_TIME * FRAMES_PER_ACTION
