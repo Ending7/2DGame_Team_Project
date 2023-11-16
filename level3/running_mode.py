@@ -11,6 +11,7 @@ from level3.runner import Runner
 from key_explain import Keyexplain
 from level3.runner_stamina import Runner_stamina
 from level3.running_map import Running_map
+from level3.zombie import Zombie
 
 
 def runner_idle():
@@ -72,11 +73,12 @@ def create_inside_splinter():
     for splinter in splinters:
         game_world.add_collision_pair('runner:splinter', None, splinter)
 
+
 def create_inside2_splinter():
     splinters = []
     start = 10
     for _ in range(14):
-        splinters.append(Splinter(635, start, 2, random.randint(0,6)))
+        splinters.append(Splinter(635, start, 2, random.randint(0, 6)))
         start += 30
     start = 10
     for _ in range(14):
@@ -94,6 +96,7 @@ def create_inside2_splinter():
     for splinter in splinters:
         game_world.add_collision_pair('runner:splinter', None, splinter)
 
+
 def create_object():
     global running_map
     global runner
@@ -107,6 +110,7 @@ def create_object():
     runner = Runner()
     game_world.add_object(runner, 2)
     game_world.add_collision_pair('runner:splinter', runner, None)
+    game_world.add_collision_pair('runner:zombie', runner, None)
 
     key_explain = Keyexplain()
     game_world.add_object(key_explain, 3)
@@ -144,8 +148,21 @@ def init():
     create_inside_splinter()
     create_inside2_splinter()
 
+    zombie = Zombie(1300, 230)
+    game_world.add_object(zombie, 2)
+    game_world.add_collision_pair('runner:zombie', None, zombie)
+
+    zombie = Zombie(1000, 430)
+    game_world.add_object(zombie, 2)
+    game_world.add_collision_pair('runner:zombie', None, zombie)
+
+    zombie = Zombie(1000, 50)
+    game_world.add_object(zombie, 2)
+    game_world.add_collision_pair('runner:zombie', None, zombie)
+
 def finish():
     game_world.remove_all_object('runner:splinter')
+    game_world.remove_all_object('runner:zombie')
     game_world.clear()
     pass
 
