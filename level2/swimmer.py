@@ -152,8 +152,8 @@ def use_stamina(swimmer):
 def swimmer_move(swimmer):
     if swimming_mode.time_lock == False and swimmer.stamina_lock == False:
         swimmer.frame = (swimmer.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 6
-        swimmer.x += swimmer.dirX * RUN_SPEED_PPS * game_framework.frame_time * swimmer.speed
-        swimmer.y += swimmer.dirY * RUN_SPEED_PPS * game_framework.frame_time * swimmer.speed
+        swimmer.x += swimmer.dirX * RUN_SPEED_PPS * game_framework.frame_time * swimmer.speed * swimmer.swirl_speed
+        swimmer.y += swimmer.dirY * RUN_SPEED_PPS * game_framework.frame_time * swimmer.speed * swimmer.swirl_speed
     if swimmer.x <= 0 + 32:
         swimmer.x = 0 + 32
     if swimmer.x >= 1440 - 74:
@@ -287,7 +287,8 @@ class Swimmer:
         self.action = 0
         self.dirX = 0
         self.dirY = 0
-        self.speed = 1
+        self.speed = 1.0
+        self.swirl_speed = 1.0
         self.stamina = 65
         self.success = False
         self.die = False
@@ -300,7 +301,7 @@ class Swimmer:
 
     def update(self):
         self.state_machine.update()
-
+        self.swirl_speed = 1.0
     def handle_event(self, event):
         self.state_machine.handle_event(('INPUT', event))
 
@@ -323,3 +324,5 @@ class Swimmer:
     def handle_collision(self, group, other):
         if group == 'swimmer:shark':
             self.die = True
+        if group == 'swimmer:swirl':
+            self.swirl_speed = 0.3

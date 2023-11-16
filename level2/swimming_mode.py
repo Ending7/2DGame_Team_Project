@@ -67,7 +67,7 @@ def create_swirl():
     swirls.append(Swirl(480, 50, 2))
     swirls.append(Swirl(730, 250, 1))
     swirls.append(Swirl(960, 415, 2))
-    swirls.append(Swirl(1095, 50, 2))
+    swirls.append(Swirl(1100, 50, 2))
     swirls.append(Swirl(1225, 415, 2))
 
     for swirl in swirls:
