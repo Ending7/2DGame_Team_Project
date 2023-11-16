@@ -10,6 +10,7 @@ from level2.swimmer import Swimmer
 from key_explain import Keyexplain
 from level2.swimmer_stamina import Swimmer_stamina
 from level2.swimming_map import Swimming_map
+from level2.swirl import Swirl
 from level3 import running_mode
 
 
@@ -37,7 +38,14 @@ def create_object():
     swimmer = Swimmer()
     game_world.add_object(swimmer, 2)
     game_world.add_collision_pair('swimmer:shark', swimmer, None)
+    game_world.add_collision_pair('swimmer:swirl', swimmer, None)
 
+    key_explain = Keyexplain()
+    game_world.add_object(key_explain, 3)
+    swimmer_stamina = Swimmer_stamina()
+    game_world.add_object(swimmer_stamina, 4)
+
+def create_shark():
     # sharks = [Shark(random.randint(200,1200),random.randint(0,500),random.randint(1,2)) for _ in range(25)]
     sharks = [Shark(random.randint(150, 150), random.randint(0, 500), random.randint(1, 1)) for _ in range(5)]
     sharks += [Shark(random.randint(290, 290), random.randint(0, 500), random.randint(2, 2)) for _ in range(3)]
@@ -52,12 +60,19 @@ def create_object():
 
     for shark in sharks:
         game_world.add_collision_pair('swimmer:shark', None, shark)
+def create_swirl():
+    swirls = []
+    swirls.append(Swirl(230, 50, 2))
+    swirls.append(Swirl(355, 415, 2))
+    swirls.append(Swirl(480, 50, 2))
+    swirls.append(Swirl(730, 250, 1))
+    swirls.append(Swirl(960, 415, 2))
+    swirls.append(Swirl(1095, 50, 2))
+    swirls.append(Swirl(1225, 415, 2))
 
-    key_explain = Keyexplain()
-    game_world.add_object(key_explain, 3)
-    swimmer_stamina = Swimmer_stamina()
-    game_world.add_object(swimmer_stamina, 4)
-
+    for swirl in swirls:
+        game_world.add_object(swirl, 0)
+        game_world.add_collision_pair('swimmer:swirl', None, swirl)
 
 def handle_events():
     events = get_events()
@@ -85,12 +100,12 @@ def init():
     check_time = get_time()
     # 객체 생성
     create_object()
-
-    # 충돌 상황 등록
-
+    create_shark()
+    create_swirl()
 
 def finish():
     game_world.remove_all_object('swimmer:shark')
+    game_world.remove_all_object('swimmer:swirl')
     game_world.clear()
     pass
 
