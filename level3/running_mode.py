@@ -175,7 +175,6 @@ def update():
     if runner.success:
         game_framework.change_mode(gameclear_mode)
 
-
 def draw():
     clear_canvas()
     game_world.render()

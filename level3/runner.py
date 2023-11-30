@@ -326,5 +326,7 @@ class Runner:
             return self.x - 30, self.y-45, self.x + 30, self.y - 35
 
     def handle_collision(self, group, other):
+        if group == 'runner:splinter':
+            self.die = True
         if group == 'runner:zombie':
             self.die = True
