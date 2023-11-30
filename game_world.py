@@ -1,13 +1,15 @@
 objects = [[] for _ in range(6)] #시각적인 관점에서의 월드
-scores = []
+records = []
 #충돌 관점의 월드
 collision_pairs = {} # { 'player:rock' : [ [player], [rock1, rock2 ...] ]}
 
 def add_object(o, depth=0):
     objects[depth].append(o)
 
-def add_clear_time(time):
-    scores.append(time)
+def add_success_time(time):
+    records.append(time)
+def delete_remove_time():
+    records.clear()
 
 def add_objects(ol, depth=0):
     objects[depth] += ol

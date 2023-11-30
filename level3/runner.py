@@ -2,6 +2,7 @@
 from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, load_font, \
     get_time, SDLK_LSHIFT, draw_rectangle
 import game_framework
+import game_world
 from level3 import running_mode
 
 PIXEL_PER_METER = (10.0 / 0.3)  # m당 몇 픽셀이냐 / 10px에 30cm. 10px에 0.3m.
@@ -238,12 +239,13 @@ class Run:
         pass
 
     @staticmethod
-    def do(runner):
+    def do(runner, runner_mode=None):
         runner.action = 0
         use_stamina(runner)
         runner_move(runner)
         if runner.x >= 1350:
             runner.success = True
+            game_world.add_success_time(get_time() - runner_mode.check_time)
         pass
 
     @staticmethod
@@ -327,6 +329,8 @@ class Runner:
 
     def handle_collision(self, group, other):
         if group == 'runner:splinter':
+            game_world.delete_remove_time()
             self.die = True
         if group == 'runner:zombie':
+            game_world.delete_remove_time()
             self.die = True
