@@ -124,7 +124,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_world.delete_remove_time()
+            game_world.delete_record_time()
             game_framework.change_mode(title_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_mode(pause_mode)
@@ -153,14 +153,6 @@ def init():
     game_world.add_object(zombie, 2)
     game_world.add_collision_pair('runner:zombie', None, zombie)
 
-    zombie = Zombie(1000, 430)
-    game_world.add_object(zombie, 2)
-    game_world.add_collision_pair('runner:zombie', None, zombie)
-
-    zombie = Zombie(1000, 50)
-    game_world.add_object(zombie, 2)
-    game_world.add_collision_pair('runner:zombie', None, zombie)
-
 def finish():
     game_world.remove_all_object('runner:splinter')
     game_world.remove_all_object('runner:zombie')
@@ -169,7 +161,6 @@ def finish():
 
 
 def update():
-    print(game_world.records)
     game_world.update()
     game_world.handle_collision()
     if runner.die:

@@ -245,7 +245,9 @@ class Run:
         runner_move(runner)
         if runner.x >= 1350:
             runner.success = True
-            game_world.add_success_time(get_time() - runner_mode.check_time)
+            game_world.records.insert(2,get_time() - running_mode.check_time)
+            game_world.records.insert(3, (game_world.records[0] + game_world.records[1] + game_world.records[2]))
+            game_world.confirm_record_time()
         pass
 
     @staticmethod
@@ -329,8 +331,8 @@ class Runner:
 
     def handle_collision(self, group, other):
         if group == 'runner:splinter':
-            game_world.delete_remove_time()
+            game_world.delete_record_time()
             self.die = True
         if group == 'runner:zombie':
-            game_world.delete_remove_time()
+            game_world.delete_record_time()
             self.die = True

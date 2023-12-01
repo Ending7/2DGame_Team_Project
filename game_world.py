@@ -2,14 +2,23 @@ objects = [[] for _ in range(6)] #시각적인 관점에서의 월드
 records = []
 #충돌 관점의 월드
 collision_pairs = {} # { 'player:rock' : [ [player], [rock1, rock2 ...] ]}
+record_sum = [[9999.0,9999.0,9999.0,9999.0] for _ in range(4)]
+
 
 def add_object(o, depth=0):
     objects[depth].append(o)
 
 def add_success_time(time):
     records.append(time)
-def delete_remove_time():
+
+def delete_record_time():
     records.clear()
+
+def confirm_record_time():
+    record_sum.append([])
+    for i in records:
+        record_sum[-1].append(i)
+    record_sum.sort(key=lambda x: (x[3], x[0]))
 
 def add_objects(ol, depth=0):
     objects[depth] += ol

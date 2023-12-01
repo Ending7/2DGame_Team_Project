@@ -239,7 +239,7 @@ class Run:
         cycler_move(cycler)
         if cycler.x >= 1300:
             cycler.success = True
-            game_world.add_success_time(get_time() - cycling_mode.check_time)
+            game_world.records.insert(0,get_time() - cycling_mode.check_time)
         pass
 
     @staticmethod
@@ -320,8 +320,8 @@ class Cycler:
 
     def handle_collision(self, group, other):
         if group == 'cycler:rock':
-            game_world.delete_remove_time()
+            game_world.delete_record_time()
             self.die = True
         if group == 'cycler:cliff':
-            game_world.delete_remove_time()
+            game_world.delete_record_time()
             self.die = True

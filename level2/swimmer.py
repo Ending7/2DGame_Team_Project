@@ -244,7 +244,7 @@ class Run:
         swimmer_move(swimmer)
         if swimmer.x >= 1350:
             swimmer.success = True
-            game_world.add_success_time(get_time() - swimming_mode.check_time)
+            game_world.records.insert(1,get_time() - swimming_mode.check_time)
         pass
 
     @staticmethod
@@ -326,7 +326,7 @@ class Swimmer:
 
     def handle_collision(self, group, other):
         if group == 'swimmer:shark':
-            game_world.delete_remove_time()
+            game_world.delete_record_time()
             self.die = True
         if group == 'swimmer:swirl':
             self.swirl_speed = 0.3

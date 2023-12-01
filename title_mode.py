@@ -2,6 +2,7 @@ from pico2d import get_events, load_image, clear_canvas, update_canvas
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1, SDLK_2, SDLK_3
 
 import game_framework
+import game_world
 import howtoplay_mode
 from level1 import cycling_mode
 from level2 import swimming_mode
@@ -18,6 +19,8 @@ def finish():
 
 
 def update():
+    game_world.delete_record_time()
+    print(game_world.records)
     pass
 
 

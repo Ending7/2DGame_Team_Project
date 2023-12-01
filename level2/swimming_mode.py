@@ -80,7 +80,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_world.delete_remove_time()
+            game_world.delete_record_time()
             game_framework.change_mode(title_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_mode(pause_mode)
@@ -112,7 +112,6 @@ def finish():
 
 
 def update():
-    print(game_world.records)
     game_world.update()
     game_world.handle_collision()
     if swimmer.die:
