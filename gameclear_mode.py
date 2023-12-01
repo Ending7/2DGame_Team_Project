@@ -4,7 +4,7 @@ from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1
 import game_framework
 import game_world
 import title_mode
-
+import pickle
 
 def init():
     global image
@@ -14,12 +14,13 @@ def init():
 
 
 def finish():
+    with open('data.p', 'wb') as f:
+        pickle.dump(game_world.record_sum, f)
     game_world.delete_record_time()
     pass
 
 
 def update():
-    print(game_world.record_sum)
     pass
 
 

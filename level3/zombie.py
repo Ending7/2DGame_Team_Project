@@ -148,10 +148,10 @@ class Zombie:
 
         SEQ_wander = Sequence('wander', a3, a2)
 
-        c1 = Condition('소년이 근처에 있는가?', self.is_runner_nearby, 7)
-        a4 = Action('소년으로 이동', self.move_to_runner)
+        c1 = Condition('플레이어가 근처에 있는가?', self.is_runner_nearby, 7)
+        a4 = Action('플레이어에게 이동', self.move_to_runner)
 
-        SEQ_chase_runner = Sequence('소년을 추적', c1, a4)
+        SEQ_chase_runner = Sequence('플레이어를 추적', c1, a4)
 
 
         root = SEL_chase_or_wander = Selector('추적 또는 배회', SEQ_chase_runner, SEQ_wander)

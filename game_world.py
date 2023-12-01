@@ -76,7 +76,6 @@ def collide(a, b):
 # { 'player:rock' : [ [player], [rock1, rock2 ...] ]}
 def add_collision_pair(group, a, b):
     if group not in collision_pairs:
-        print(f'New group {group} added.')
         collision_pairs[group] = [ [], [] ]
     if a: # a가 있을 때, 즉, a기 None이 아니라면
         collision_pairs[group][0].append(a)
