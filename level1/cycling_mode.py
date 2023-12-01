@@ -108,6 +108,15 @@ def handle_events():
             game_framework.change_mode(title_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_mode(pause_mode)
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
+            if game_world.item[0] == 1:
+                game_world.item[0] = 0
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
+            if game_world.item[1] == 1:
+                game_world.item[1] = 0
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
+            if game_world.item[2] == 1:
+                game_world.item[2] = 0
         else:
             cycler.handle_event(event)
 
