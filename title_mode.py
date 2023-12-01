@@ -48,7 +48,7 @@ def handle_events():
             game_world.item[0] = 1
             game_world.item[1] = 1
             game_world.item[2] = 1
-            game_framework.change_mode(cycling_mode)
+            game_framework.change_mode(swimming_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_2):
             button_select.play()
             game_framework.change_mode(howtoplay_mode)

@@ -1,6 +1,6 @@
 # 이것은 각 상태들을 객체로 구현한 것임.
 from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, load_font, \
-    get_time, SDLK_LSHIFT, draw_rectangle
+    get_time, SDLK_LSHIFT, draw_rectangle, load_wav
 import game_framework
 import game_world
 from level3 import running_mode
@@ -308,7 +308,8 @@ class Runner:
         self.speed_time = 0
         self.invisibility_mode = False
         self.invisibility_time = 0
-
+        self.runner_zombie = load_wav('./bgm/runner_zombie.wav')
+        self.runner_splinter = load_wav('./bgm/runner_splinter.wav')
     def update(self):
         if self.speed_mode == True:
             self.item_speed = 2.0
@@ -354,8 +355,10 @@ class Runner:
     def handle_collision(self, group, other):
         if self.invisibility_mode == False:
             if group == 'runner:splinter':
+                self.runner_splinter.play()
                 game_world.delete_record_time()
                 self.die = True
             if group == 'runner:zombie':
+                self.runner_zombie.play()
                 game_world.delete_record_time()
                 self.die = True

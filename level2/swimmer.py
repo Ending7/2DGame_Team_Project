@@ -1,6 +1,6 @@
 # 이것은 각 상태들을 객체로 구현한 것임.
 from pico2d import load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, load_font, \
-    get_time, SDLK_LSHIFT, draw_rectangle
+    get_time, SDLK_LSHIFT, draw_rectangle, load_wav
 import game_framework
 import game_world
 from level1 import cycling_mode
@@ -306,7 +306,8 @@ class Swimmer:
         self.speed_time = 0
         self.invisibility_mode = False
         self.invisibility_time = 0
-
+        self.swimmer_shark = load_wav('./bgm/swimmer_shark.wav')
+        self.swimmer_swirl = load_wav('./bgm/swimmer_swirl.wav')
     def update(self):
 
         if self.speed_mode == True:
@@ -351,7 +352,9 @@ class Swimmer:
     def handle_collision(self, group, other):
         if self.invisibility_mode == False:
             if group == 'swimmer:shark':
+                self.swimmer_shark.play()
                 game_world.delete_record_time()
                 self.die = True
             if group == 'swimmer:swirl':
+                self.swimmer_swirl.play()
                 self.swirl_speed = 0.3
