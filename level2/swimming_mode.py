@@ -90,11 +90,14 @@ def handle_events():
                 game_world.item[0] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
-                swimmer.speed_mode = True
-                game_world.item[1] = 0
+                if swimmer.invisibility_mode == False:
+                    swimmer.speed_mode = True
+                    game_world.item[1] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:
-                game_world.item[2] = 0
+                if swimmer.speed_mode == False:
+                    swimmer.invisibility_mode = True
+                    game_world.item[2] = 0
         else:
             swimmer.handle_event(event)
 

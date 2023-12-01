@@ -134,11 +134,14 @@ def handle_events():
                 game_world.item[0] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
-                runner.speed_mode = True
-                game_world.item[1] = 0
+                if runner.invisibility_mode == False:
+                    runner.speed_mode = True
+                    game_world.item[1] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:
-                game_world.item[2] = 0
+                if runner.speed_mode == False:
+                    runner.invisibility_mode = True
+                    game_world.item[2] = 0
         else:
             runner.handle_event(event)
 

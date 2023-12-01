@@ -114,11 +114,14 @@ def handle_events():
                 game_world.item[0] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
-                cycler.speed_mode = True
-                game_world.item[1] = 0
+                if cycler.invisibility_mode == False:
+                    cycler.speed_mode = True
+                    game_world.item[1] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:
-                game_world.item[2] = 0
+                if cycler.speed_mode == False:
+                    cycler.invisibility_mode = True
+                    game_world.item[2] = 0
         else:
             cycler.handle_event(event)
 

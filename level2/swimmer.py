@@ -304,6 +304,8 @@ class Swimmer:
         self.state_machine.start()
         self.speed_mode = False
         self.speed_time = 0
+        self.invisibility_mode = False
+        self.invisibility_time = 0
 
     def update(self):
 
@@ -314,6 +316,13 @@ class Swimmer:
                 self.speed_time = 0
                 self.item_speed = 1.0
                 self.speed_mode = False
+
+        if self.invisibility_mode == True:
+            self.invisibility_time += game_framework.frame_time
+            if self.invisibility_time >= 2.0:
+                self.invisibility_time = 0
+                self.invisibility_mode = False
+
         self.state_machine.update()
         self.swirl_speed = 1.0
     def handle_event(self, event):
@@ -327,7 +336,9 @@ class Swimmer:
             self.font.draw(1400 / 2 - 100, 780, f'(Time: {swimming_mode.pause_time - swimming_mode.check_time:.2f})',
                            (255, 0, 0))
         if self.speed_mode == True:
-            self.font.draw(self.x - 170, self.y + 50, f'(remain_time: {2.0 - self.speed_time:.2f})', (0, 0, 255))
+            self.font.draw(self.x - 170, self.y + 50, f'(speed_time: {2.0 - self.speed_time:.2f})', (0, 0, 255))
+        if self.invisibility_mode == True:
+            self.font.draw(self.x-220,self.y+50, f'(invisibility_time: {2.0-self.invisibility_time:.2f})', (0, 255, 0))
         if self.stamina_lock == True:
             self.font.draw(self.x - 100, self.y + 40, f'Now Groggy...', (0, 0, 255))
 
@@ -338,8 +349,9 @@ class Swimmer:
         return self.x - 25, self.y-15, self.x + 40, self.y + 10
 
     def handle_collision(self, group, other):
-        if group == 'swimmer:shark':
-            game_world.delete_record_time()
-            self.die = True
-        if group == 'swimmer:swirl':
-            self.swirl_speed = 0.3
+        if self.invisibility_mode == False:
+            if group == 'swimmer:shark':
+                game_world.delete_record_time()
+                self.die = True
+            if group == 'swimmer:swirl':
+                self.swirl_speed = 0.3
