@@ -3,7 +3,7 @@ records = []
 #충돌 관점의 월드
 collision_pairs = {} # { 'player:rock' : [ [player], [rock1, rock2 ...] ]}
 record_sum = [[9999.0,9999.0,9999.0,9999.0] for _ in range(4)]
-
+item = [1,1,1]
 
 def add_object(o, depth=0):
     objects[depth].append(o)
