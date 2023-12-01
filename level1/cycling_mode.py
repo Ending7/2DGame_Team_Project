@@ -4,6 +4,7 @@ import game_world
 import game_framework
 import gameover_mode
 import pause_mode
+from bgm.bgm_sound import Bgm_sound
 from level1.cliff import Cliff
 from level2 import swimming_mode
 import title_mode
@@ -141,6 +142,7 @@ def init():
     global item_image2
     global item_image3
     global item_no_image
+    global bgm_sound
 
     item_image1 = load_image('./resource/stamina.png')
     item_image2 = load_image('./resource/speedup.png')
@@ -155,10 +157,10 @@ def init():
     create_object()
     spawn_cliff()
 
-
-
+    bgm_sound = Bgm_sound('./bgm/level1_bgm.mp3')
 
 def finish():
+    bgm_sound.bgm.stop()
     game_world.remove_all_object('cycler:rock')
     game_world.remove_all_object('cycler:cliff')
     game_world.remove_all_object('cliff:rock')

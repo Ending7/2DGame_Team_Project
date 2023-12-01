@@ -1,9 +1,10 @@
-from pico2d import get_events, load_image, clear_canvas, update_canvas
+from pico2d import get_events, load_image, clear_canvas, update_canvas, load_music, load_wav
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1, SDLK_2, SDLK_3
 
 import game_framework
 import game_world
 import howtoplay_mode
+from bgm.bgm_sound import Bgm_sound
 from level1 import cycling_mode
 from level2 import swimming_mode
 from level3 import running_mode
@@ -11,12 +12,16 @@ import rankingboard_mode
 import pickle
 def init():
     global image
+    global bgm_sound
     with open("data.p", 'rb') as f:
         game_world.record_sum = pickle.load(f)
     image = load_image('./resource/title.png')
 
+    bgm_sound = Bgm_sound('./bgm/title_bgm.mp3')
 
 def finish():
+    game_world.clear()
+    bgm_sound.bgm.stop()
     pass
 
 

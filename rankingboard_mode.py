@@ -4,15 +4,19 @@ from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1
 import game_framework
 import game_world
 import title_mode
+from bgm.bgm_sound import Bgm_sound
 
 
 def init():
     global image
     global font
+    global bgm_sound
     image = load_image('./resource/rankingboard.png')
     font = load_font('./resource/ENCR10B.TTF', 15)
+    bgm_sound = Bgm_sound('./bgm/ranking_bgm.mp3')
 
 def finish():
+    bgm_sound.bgm.stop()
     pass
 
 

@@ -3,14 +3,17 @@ from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1
 
 import game_framework
 import title_mode
+from bgm.bgm_sound import Bgm_sound
 
 
 def init():
     global image
+    global bgm_sound
     image = load_image('./resource/howtoplay.png')
-
+    bgm_sound = Bgm_sound('./bgm/how_to_bgm.mp3')
 
 def finish():
+    bgm_sound.bgm.stop()
     pass
 
 

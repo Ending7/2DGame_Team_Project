@@ -5,6 +5,7 @@ import game_framework
 import gameover_mode
 import pause_mode
 import title_mode
+from bgm.bgm_sound import Bgm_sound
 from level2.shark import Shark
 from level2.swimmer import Swimmer
 from key_explain import Keyexplain
@@ -114,6 +115,8 @@ def init():
     global item_image2
     global item_image3
     global item_no_image
+    global bgm_sound
+
     item_image1 = load_image('./resource/stamina.png')
     item_image2 = load_image('./resource/speedup.png')
     item_image3 = load_image('./resource/invisibility.png')
@@ -126,7 +129,9 @@ def init():
     create_shark()
     create_swirl()
 
+    bgm_sound = Bgm_sound('./bgm/level2_bgm.mp3')
 def finish():
+    bgm_sound.bgm.stop()
     game_world.remove_all_object('swimmer:shark')
     game_world.remove_all_object('swimmer:swirl')
     game_world.clear()

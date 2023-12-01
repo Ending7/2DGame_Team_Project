@@ -6,14 +6,19 @@ import game_world
 import title_mode
 import pickle
 
+from bgm.bgm_sound import Bgm_sound
+
+
 def init():
     global image
     global font
+    global bgm_sound
     font = load_font('./resource/ENCR10B.TTF', 20)
     image = load_image('./resource/gameclear.png')
 
-
+    bgm_sound = Bgm_sound('./bgm/game_clear_bgm.mp3')
 def finish():
+    bgm_sound.bgm.stop()
     with open('data.p', 'wb') as f:
         pickle.dump(game_world.record_sum, f)
     game_world.delete_record_time()
@@ -27,7 +32,7 @@ def update():
 def draw():
     clear_canvas()
     image.draw(1400 / 2, 800 / 2)
-    font.draw(100, 580, f'(cycling:{game_world.records[0]}, swimming:{game_world.records[1]}, running:{game_world.records[2]}, sum:{game_world.records[3]})', (255, 0, 0))
+    font.draw(30, 750, f'(cycling:{game_world.records[0]}, swimming:{game_world.records[1]}, running:{game_world.records[2]}, sum:{game_world.records[3]})', (255, 0, 0))
     update_canvas()
 
 

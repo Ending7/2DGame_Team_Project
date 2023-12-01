@@ -6,6 +6,7 @@ import gameclear_mode
 import gameover_mode
 import pause_mode
 import title_mode
+from bgm.bgm_sound import Bgm_sound
 from level3.splinter import Splinter
 from level3.runner import Runner
 from key_explain import Keyexplain
@@ -158,6 +159,8 @@ def init():
     global item_image2
     global item_image3
     global item_no_image
+    global bgm_sound
+
     item_image1 = load_image('./resource/stamina.png')
     item_image2 = load_image('./resource/speedup.png')
     item_image3 = load_image('./resource/invisibility.png')
@@ -175,7 +178,9 @@ def init():
     game_world.add_object(zombie, 2)
     game_world.add_collision_pair('runner:zombie', None, zombie)
 
+    bgm_sound = Bgm_sound('./bgm/level3_bgm.mp3')
 def finish():
+    bgm_sound.bgm.stop()
     game_world.remove_all_object('runner:splinter')
     game_world.remove_all_object('runner:zombie')
     game_world.clear()
