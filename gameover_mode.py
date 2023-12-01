@@ -12,7 +12,6 @@ def init():
     image = load_image('./resource/gameover.png')
     bgm_sound = Bgm_sound('./bgm/game_over_bgm.mp3')
 
-
 def finish():
     bgm_sound.bgm.stop()
     pass

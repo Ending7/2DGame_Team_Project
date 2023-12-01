@@ -131,17 +131,20 @@ def handle_events():
             game_framework.push_mode(pause_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
             if game_world.item[0] == 1:
+                use_stamina_item.play()
                 runner.stamina = 65
                 game_world.item[0] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
                 if runner.invisibility_mode == False:
                     runner.speed_mode = True
+                    use_speed_item.play()
                     game_world.item[1] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:
                 if runner.speed_mode == False:
                     runner.invisibility_mode = True
+                    use_invisibility_item.play()
                     game_world.item[2] = 0
         else:
             runner.handle_event(event)
@@ -160,6 +163,9 @@ def init():
     global item_image3
     global item_no_image
     global bgm_sound
+    global use_stamina_item
+    global use_speed_item
+    global use_invisibility_item
 
     item_image1 = load_image('./resource/stamina.png')
     item_image2 = load_image('./resource/speedup.png')
@@ -179,6 +185,9 @@ def init():
     game_world.add_collision_pair('runner:zombie', None, zombie)
 
     bgm_sound = Bgm_sound('./bgm/level3_bgm.mp3')
+    use_stamina_item = load_wav('./bgm/use_stamina_item.wav')
+    use_speed_item = load_wav('./bgm/use_speed_item.wav')
+    use_invisibility_item = load_wav('./bgm/use_invisibility_item.wav')
 def finish():
     bgm_sound.bgm.stop()
     game_world.remove_all_object('runner:splinter')
