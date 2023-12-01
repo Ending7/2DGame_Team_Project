@@ -1,4 +1,5 @@
-from pico2d import load_image
+from pico2d import load_image, load_wav
+
 
 class Swimming_map:
     def __init__(self):

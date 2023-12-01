@@ -1,4 +1,4 @@
-from pico2d import load_image
+from pico2d import load_image, load_wav
 import game_framework
 from level1 import cycling_mode
 
