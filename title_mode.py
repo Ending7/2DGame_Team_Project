@@ -37,6 +37,9 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_1):
+            game_world.item[0] = 1
+            game_world.item[1] = 1
+            game_world.item[2] = 1
             game_framework.change_mode(cycling_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_2):
             game_framework.change_mode(howtoplay_mode)

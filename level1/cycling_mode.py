@@ -173,19 +173,19 @@ def draw():
     clear_canvas()
     game_world.render()
     if game_world.item[0] == 1:
-        item_image1.draw(2000 / 1000 +50, 800 / 2 +250)
+        item_image1.draw(50, 800 / 2 +250)
     else:
-        item_no_image.draw(2000 / 1000 +50, 800 / 2 +250)
+        item_no_image.draw(50, 800 / 2 +250)
 
     if game_world.item[1] == 1:
-        item_image2.draw(2000 / 1000 + 170, 800 / 2 + 250)
+        item_image2.draw(170, 800 / 2 + 250)
     else:
-        item_no_image.draw(2000 / 1000 + 170, 800 / 2 + 250)
+        item_no_image.draw(170, 800 / 2 + 250)
 
     if game_world.item[2] == 1:
-        item_image2.draw(2000 / 1000 + 290, 800 / 2 + 250)
+        item_image3.draw(290, 800 / 2 + 250)
     else:
-        item_no_image.draw(2000 / 1000 + 290, 800 / 2 + 250)
+        item_no_image.draw(290, 800 / 2 + 250)
     update_canvas()
 
 

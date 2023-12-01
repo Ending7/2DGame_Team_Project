@@ -128,6 +128,15 @@ def handle_events():
             game_framework.change_mode(title_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_mode(pause_mode)
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
+            if game_world.item[0] == 1:
+                game_world.item[0] = 0
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
+            if game_world.item[1] == 1:
+                game_world.item[1] = 0
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
+            if game_world.item[2] == 1:
+                game_world.item[2] = 0
         else:
             runner.handle_event(event)
 
@@ -140,6 +149,14 @@ def init():
     global runner_stamina
     global check_time
     global time_lock
+    global item_image1
+    global item_image2
+    global item_image3
+    global item_no_image
+    item_image1 = load_image('./resource/stamina.png')
+    item_image2 = load_image('./resource/speedup.png')
+    item_image3 = load_image('./resource/invisibility.png')
+    item_no_image = load_image('./resource/noitem.png')
 
     time_lock = False
     check_time = get_time()
@@ -171,9 +188,21 @@ def update():
 def draw():
     clear_canvas()
     game_world.render()
+    if game_world.item[0] == 1:
+        item_image1.draw(2000 / 1000 + 50, 800 / 2 + 250)
+    else:
+        item_no_image.draw(2000 / 1000 + 50, 800 / 2 + 250)
+
+    if game_world.item[1] == 1:
+        item_image2.draw(2000 / 1000 + 170, 800 / 2 + 250)
+    else:
+        item_no_image.draw(2000 / 1000 + 170, 800 / 2 + 250)
+
+    if game_world.item[2] == 1:
+        item_image3.draw(2000 / 1000 + 290, 800 / 2 + 250)
+    else:
+        item_no_image.draw(2000 / 1000 + 290, 800 / 2 + 250)
     update_canvas()
-
-
 def pause():
     global pause_time
     global check_time
