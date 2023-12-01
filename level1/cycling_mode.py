@@ -110,9 +110,11 @@ def handle_events():
             game_framework.push_mode(pause_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
             if game_world.item[0] == 1:
+                cycler.stamina = 65
                 game_world.item[0] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
+                cycler.speed_mode = True
                 game_world.item[1] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:
@@ -176,12 +178,10 @@ def draw():
         item_image1.draw(50, 800 / 2 +250)
     else:
         item_no_image.draw(50, 800 / 2 +250)
-
     if game_world.item[1] == 1:
         item_image2.draw(170, 800 / 2 + 250)
     else:
         item_no_image.draw(170, 800 / 2 + 250)
-
     if game_world.item[2] == 1:
         item_image3.draw(290, 800 / 2 + 250)
     else:

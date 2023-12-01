@@ -154,8 +154,8 @@ def use_stamina(swimmer):
 def swimmer_move(swimmer):
     if swimming_mode.time_lock == False and swimmer.stamina_lock == False:
         swimmer.frame = (swimmer.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 6
-        swimmer.x += swimmer.dirX * RUN_SPEED_PPS * game_framework.frame_time * swimmer.speed * swimmer.swirl_speed
-        swimmer.y += swimmer.dirY * RUN_SPEED_PPS * game_framework.frame_time * swimmer.speed * swimmer.swirl_speed
+        swimmer.x += swimmer.dirX * RUN_SPEED_PPS * game_framework.frame_time * swimmer.speed * swimmer.swirl_speed * swimmer.item_speed
+        swimmer.y += swimmer.dirY * RUN_SPEED_PPS * game_framework.frame_time * swimmer.speed * swimmer.swirl_speed * swimmer.item_speed
     if swimmer.x <= 0 + 32:
         swimmer.x = 0 + 32
     if swimmer.x >= 1440 - 74:
@@ -291,6 +291,7 @@ class Swimmer:
         self.dirX = 0
         self.dirY = 0
         self.speed = 1.0
+        self.item_speed = 1.0
         self.swirl_speed = 1.0
         self.stamina = 65
         self.success = False
@@ -301,8 +302,14 @@ class Swimmer:
         self.font = load_font('./resource/ENCR10B.TTF', 32)
         self.state_machine = StateMachine(self)
         self.state_machine.start()
+        self.speed_mode = False
 
     def update(self):
+
+        if self.speed_mode == True:
+            self.item_speed = 2.0
+        else:
+            self.item_speed = 1.0
         self.state_machine.update()
         self.swirl_speed = 1.0
     def handle_event(self, event):

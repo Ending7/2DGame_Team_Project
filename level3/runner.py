@@ -153,8 +153,8 @@ def use_stamina(runner):
 def runner_move(runner):
     if running_mode.time_lock == False and runner.stamina_lock == False:
         runner.frame = (runner.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 10
-        runner.x += runner.dirX * RUN_SPEED_PPS * game_framework.frame_time * runner.speed
-        runner.y += runner.dirY * RUN_SPEED_PPS * game_framework.frame_time * runner.speed
+        runner.x += runner.dirX * RUN_SPEED_PPS * game_framework.frame_time * runner.speed* runner.item_speed
+        runner.y += runner.dirY * RUN_SPEED_PPS * game_framework.frame_time * runner.speed* runner.item_speed
     if runner.x <= 0 + 32:
         runner.x = 0 + 32
     if runner.x >= 1440 - 74:
@@ -294,6 +294,7 @@ class Runner:
         self.dirX = 0
         self.dirY = 0
         self.speed = 1
+        self.item_speed = 1
         self.stamina = 65
         self.success = False
         self.die = False
@@ -303,8 +304,13 @@ class Runner:
         self.font = load_font('./resource/ENCR10B.TTF', 32)
         self.state_machine = StateMachine(self)
         self.state_machine.start()
+        self.speed_mode = False
 
     def update(self):
+        if self.speed_mode == True:
+            self.item_speed = 2.0
+        else:
+            self.item_speed = 1.0
         self.state_machine.update()
 
     def handle_event(self, event):

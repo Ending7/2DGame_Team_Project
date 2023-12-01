@@ -86,9 +86,11 @@ def handle_events():
             game_framework.push_mode(pause_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
             if game_world.item[0] == 1:
+                swimmer.stamina = 65
                 game_world.item[0] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
+                swimmer.speed_mode = True
                 game_world.item[1] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:

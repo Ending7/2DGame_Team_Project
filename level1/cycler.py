@@ -153,8 +153,8 @@ def use_stamina(cycler):
 def cycler_move(cycler):
     if cycling_mode.time_lock == False and cycler.stamina_lock == False:
         cycler.frame = (cycler.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 12
-        cycler.x += cycler.dirX * RUN_SPEED_PPS * game_framework.frame_time * cycler.speed
-        cycler.y += cycler.dirY * RUN_SPEED_PPS * game_framework.frame_time * cycler.speed
+        cycler.x += cycler.dirX * RUN_SPEED_PPS * game_framework.frame_time * cycler.speed * cycler.item_speed
+        cycler.y += cycler.dirY * RUN_SPEED_PPS * game_framework.frame_time * cycler.speed * cycler.item_speed
     if cycler.x <= 0 + 32:
         cycler.x = 0 + 32
     if cycler.x >= 1440 - 74:
@@ -286,6 +286,7 @@ class Cycler:
         self.dirX = 0
         self.dirY = 0
         self.speed = 1
+        self.item_speed = 1.0
         self.stamina = 65
         self.success = False
         self.die = False
@@ -295,8 +296,13 @@ class Cycler:
         self.font = load_font('./resource/ENCR10B.TTF', 32)
         self.state_machine = StateMachine(self)
         self.state_machine.start()
+        self.speed_mode = False
 
     def update(self):
+        if self.speed_mode == True:
+            self.item_speed = 2.0
+        else:
+            self.item_speed = 1.0
         self.state_machine.update()
 
     def handle_event(self, event):

@@ -130,9 +130,11 @@ def handle_events():
             game_framework.push_mode(pause_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
             if game_world.item[0] == 1:
+                runner.stamina = 65
                 game_world.item[0] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
+                runner.speed_mode = True
                 game_world.item[1] = 0
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:
@@ -192,7 +194,6 @@ def draw():
         item_image1.draw(2000 / 1000 + 50, 800 / 2 + 250)
     else:
         item_no_image.draw(2000 / 1000 + 50, 800 / 2 + 250)
-
     if game_world.item[1] == 1:
         item_image2.draw(2000 / 1000 + 170, 800 / 2 + 250)
     else:
