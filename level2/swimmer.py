@@ -303,13 +303,17 @@ class Swimmer:
         self.state_machine = StateMachine(self)
         self.state_machine.start()
         self.speed_mode = False
+        self.speed_time = 0
 
     def update(self):
 
         if self.speed_mode == True:
             self.item_speed = 2.0
-        else:
-            self.item_speed = 1.0
+            self.speed_time += game_framework.frame_time
+            if self.speed_time >= 2.0:
+                self.speed_time = 0
+                self.item_speed = 1.0
+                self.speed_mode = False
         self.state_machine.update()
         self.swirl_speed = 1.0
     def handle_event(self, event):
@@ -322,6 +326,8 @@ class Swimmer:
         elif swimming_mode.time_lock == True:
             self.font.draw(1400 / 2 - 100, 780, f'(Time: {swimming_mode.pause_time - swimming_mode.check_time:.2f})',
                            (255, 0, 0))
+        if self.speed_mode == True:
+            self.font.draw(self.x - 170, self.y + 50, f'(remain_time: {2.0 - self.speed_time:.2f})', (0, 0, 255))
         if self.stamina_lock == True:
             self.font.draw(self.x - 100, self.y + 40, f'Now Groggy...', (0, 0, 255))
 

@@ -5,6 +5,8 @@ import game_framework
 import game_world
 import howtoplay_mode
 from level1 import cycling_mode
+from level2 import swimming_mode
+from level3 import running_mode
 import rankingboard_mode
 import pickle
 def init():
