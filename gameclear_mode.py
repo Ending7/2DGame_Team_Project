@@ -1,4 +1,4 @@
-from pico2d import get_events, load_image, clear_canvas, update_canvas, load_font
+from pico2d import get_events, load_image, clear_canvas, update_canvas, load_font, load_wav
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_1
 
 import game_framework
@@ -13,10 +13,11 @@ def init():
     global image
     global font
     global bgm_sound
+    global button_select2
     font = load_font('./resource/ENCR10B.TTF', 20)
     image = load_image('./resource/gameclear.png')
-
     bgm_sound = Bgm_sound('./bgm/game_clear_bgm.mp3')
+    button_select2 = load_wav('./bgm/button_select2.wav')
 def finish():
     bgm_sound.bgm.stop()
     with open('data.p', 'wb') as f:
@@ -42,6 +43,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            button_select2.play()
             game_world.delete_record_time()
             game_framework.change_mode(title_mode)
 

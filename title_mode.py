@@ -13,12 +13,12 @@ import pickle
 def init():
     global image
     global bgm_sound
+    global button_select
     with open("data.p", 'rb') as f:
         game_world.record_sum = pickle.load(f)
     image = load_image('./resource/title.png')
-
     bgm_sound = Bgm_sound('./bgm/title_bgm.mp3')
-
+    button_select = load_wav('./bgm/button_select.wav')
 def finish():
     game_world.clear()
     bgm_sound.bgm.stop()
@@ -44,13 +44,16 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_1):
+            button_select.play()
             game_world.item[0] = 1
             game_world.item[1] = 1
             game_world.item[2] = 1
-            game_framework.change_mode(running_mode)
+            game_framework.change_mode(swimming_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_2):
+            button_select.play()
             game_framework.change_mode(howtoplay_mode)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_3):
+            button_select.play()
             game_framework.change_mode(rankingboard_mode)
 
 

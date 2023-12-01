@@ -43,6 +43,8 @@ class Zombie:
         self.tx, self.ty = 1000, 1000
         self.build_behavior_tree()
 
+        self.zombie_scream = load_wav('./bgm/zombie_scream.wav')
+        self.zombie_scream.play()
     def get_bb(self):
         return self.x - 30, self.y - 50, self.x + 30, self.y + 35
 

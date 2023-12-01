@@ -105,9 +105,11 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            button_select2.play()
             game_world.delete_record_time()
             game_framework.change_mode(title_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
+            button_select1.play()
             game_framework.push_mode(pause_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
             if game_world.item[0] == 1:
@@ -149,7 +151,8 @@ def init():
     global use_stamina_item
     global use_speed_item
     global use_invisibility_item
-
+    global button_select1
+    global button_select2
     item_image1 = load_image('./resource/stamina.png')
     item_image2 = load_image('./resource/speedup.png')
     item_image3 = load_image('./resource/invisibility.png')
@@ -167,7 +170,8 @@ def init():
     use_stamina_item = load_wav('./bgm/use_stamina_item.wav')
     use_speed_item = load_wav('./bgm/use_speed_item.wav')
     use_invisibility_item = load_wav('./bgm/use_invisibility_item.wav')
-
+    button_select1 = load_wav('./bgm/button_select.wav')
+    button_select2 = load_wav('./bgm/button_select2.wav')
 def finish():
     bgm_sound.bgm.stop()
 

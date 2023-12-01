@@ -301,6 +301,7 @@ class Cycler:
         self.speed_time = 0
         self.invisibility_mode = False
         self.invisibility_time = 0
+        self.cycler_rock_sound = load_wav('./bgm/cycler_rock_sound.wav')
 
     def update(self):
         if self.speed_mode == True:
@@ -343,6 +344,7 @@ class Cycler:
     def handle_collision(self, group, other):
         if self.invisibility_mode == False:
             if group == 'cycler:rock':
+                self.cycler_rock_sound.play()
                 game_world.delete_record_time()
                 self.die = True
             if group == 'cycler:cliff':
