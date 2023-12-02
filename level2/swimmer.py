@@ -164,7 +164,7 @@ def swimmer_move(swimmer):
         swimmer.y = 35
     if swimmer.y >= 450:
         swimmer.y = 450
-
+    swimmer.swimmer_swim.play()
 
 def swimmer_move_stop(swimmer):
     swimmer.dir_X = 0
@@ -308,6 +308,7 @@ class Swimmer:
         self.invisibility_time = 0
         self.swimmer_shark = load_wav('./bgm/swimmer_shark.wav')
         self.swimmer_swirl = load_wav('./bgm/swimmer_swirl.wav')
+        self.swimmer_swim = load_wav('./bgm/swimmer_swim.wav')
     def update(self):
 
         if self.speed_mode == True:
@@ -352,9 +353,12 @@ class Swimmer:
     def handle_collision(self, group, other):
         if self.invisibility_mode == False:
             if group == 'swimmer:shark':
+                self.swimmer_swim = None
                 self.swimmer_shark.play()
                 game_world.delete_record_time()
                 self.die = True
             if group == 'swimmer:swirl':
+                self.swimmer_swim = None
                 self.swimmer_swirl.play()
                 self.swirl_speed = 0.3
+                self.swimmer_swim = load_wav('./bgm/swimmer_swim.wav')

@@ -81,29 +81,47 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            swimmer.swimmer_swirl = None
+            swimmer.swimmer_swim = None
             button_select2.play()
             game_world.delete_record_time()
             game_framework.change_mode(title_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
+            swimmer.swimmer_swirl = None
+            swimmer.swimmer_swim = None
             button_select1.play()
             game_framework.push_mode(pause_mode)
+            swimmer.swimmer_swirl = load_wav('./bgm/swimmer_swirl.wav')
+            swimmer.swimmer_swim = load_wav('./bgm/swimmer_swim.wav')
         elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
             if game_world.item[0] == 1:
+                swimmer.swimmer_swirl = None
+                swimmer.swimmer_swim = None
                 use_stamina_item.play()
                 swimmer.stamina = 65
                 game_world.item[0] = 0
+                swimmer.swimmer_swirl = load_wav('./bgm/swimmer_swirl.wav')
+                swimmer.swimmer_swim = load_wav('./bgm/swimmer_swim.wav')
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
                 if swimmer.invisibility_mode == False:
+                    swimmer.swimmer_swirl = None
+                    swimmer.swimmer_swim = None
                     swimmer.speed_mode = True
                     use_speed_item.play()
                     game_world.item[1] = 0
+                    swimmer.swimmer_swirl = load_wav('./bgm/swimmer_swirl.wav')
+                    swimmer.swimmer_swim = load_wav('./bgm/swimmer_swim.wav')
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:
                 if swimmer.speed_mode == False:
+                    swimmer.swimmer_swirl = None
+                    swimmer.swimmer_swim = None
                     swimmer.invisibility_mode = True
                     use_invisibility_item.play()
                     game_world.item[2] = 0
+                    swimmer.swimmer_swirl = load_wav('./bgm/swimmer_swirl.wav')
+                    swimmer.swimmer_swim = load_wav('./bgm/swimmer_swim.wav')
         else:
             swimmer.handle_event(event)
 

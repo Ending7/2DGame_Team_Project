@@ -105,29 +105,38 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            cycler.cycler_cycle = None
             button_select2.play()
             game_world.delete_record_time()
             game_framework.change_mode(title_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
+            cycler.cycler_cycle = None
             button_select1.play()
             game_framework.push_mode(pause_mode)
+            cycler.cycler_cycle = load_wav('./bgm/cycler_cycle.wav')
         elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
             if game_world.item[0] == 1:
+                cycler.cycler_cycle = None
                 use_stamina_item.play()
                 cycler.stamina = 65
                 game_world.item[0] = 0
+                cycler.cycler_cycle = load_wav('./bgm/cycler_cycle.wav')
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
                 if cycler.invisibility_mode == False:
+                    cycler.cycler_cycle = None
                     cycler.speed_mode = True
                     use_speed_item.play()
                     game_world.item[1] = 0
+                    cycler.cycler_cycle = load_wav('./bgm/cycler_cycle.wav')
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:
                 if cycler.speed_mode == False:
+                    cycler.cycler_cycle = None
                     cycler.invisibility_mode = True
                     use_invisibility_item.play()
                     game_world.item[2] = 0
+                    cycler.cycler_cycle = load_wav('./bgm/cycler_cycle.wav')
         else:
             cycler.handle_event(event)
 

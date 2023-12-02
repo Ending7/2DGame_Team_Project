@@ -125,29 +125,38 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            runner.runner_run = None
             button_select2.play()
             game_world.delete_record_time()
             game_framework.change_mode(title_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
+            runner.runner_run = None
             button_select1.play()
             game_framework.push_mode(pause_mode)
+            runner.runner_run = load_wav('./bgm/runner_run.wav')
         elif event.type == SDL_KEYDOWN and event.key == SDLK_1:
             if game_world.item[0] == 1:
+                runner.runner_run = None
                 use_stamina_item.play()
                 runner.stamina = 65
                 game_world.item[0] = 0
+                runner.runner_run = load_wav('./bgm/runner_run.wav')
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             if game_world.item[1] == 1:
                 if runner.invisibility_mode == False:
                     runner.speed_mode = True
+                    runner.runner_run = None
                     use_speed_item.play()
                     game_world.item[1] = 0
+                    runner.runner_run = load_wav('./bgm/runner_run.wav')
         elif event.type == SDL_KEYDOWN and event.key == SDLK_3:
             if game_world.item[2] == 1:
                 if runner.speed_mode == False:
+                    runner.runner_run = None
                     runner.invisibility_mode = True
                     use_invisibility_item.play()
                     game_world.item[2] = 0
+                    runner.runner_run = load_wav('./bgm/runner_run.wav')
         else:
             runner.handle_event(event)
 

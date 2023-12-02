@@ -151,6 +151,7 @@ def use_stamina(runner):
 
 
 def runner_move(runner):
+    runner.runner_run.play()
     if running_mode.time_lock == False and runner.stamina_lock == False:
         runner.frame = (runner.frame + FRAME_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 10
         runner.x += runner.dirX * RUN_SPEED_PPS * game_framework.frame_time * runner.speed* runner.item_speed
@@ -310,6 +311,7 @@ class Runner:
         self.invisibility_time = 0
         self.runner_zombie = load_wav('./bgm/runner_zombie.wav')
         self.runner_splinter = load_wav('./bgm/runner_splinter.wav')
+        self.runner_run = load_wav('./bgm/runner_run.wav')
     def update(self):
         if self.speed_mode == True:
             self.item_speed = 2.0
@@ -355,10 +357,12 @@ class Runner:
     def handle_collision(self, group, other):
         if self.invisibility_mode == False:
             if group == 'runner:splinter':
+                self.runner_run = None
                 self.runner_splinter.play()
                 game_world.delete_record_time()
                 self.die = True
             if group == 'runner:zombie':
+                self.runner_run = None
                 self.runner_zombie.play()
                 game_world.delete_record_time()
                 self.die = True

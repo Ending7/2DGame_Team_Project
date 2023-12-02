@@ -164,7 +164,7 @@ def cycler_move(cycler):
         cycler.y = 270
     if cycler.y >= 603:
         cycler.y = 603
-
+    cycler.cycler_cycle.play()
 
 def cycler_move_stop(cycler):
     cycler.dir_X = 0
@@ -303,6 +303,7 @@ class Cycler:
         self.invisibility_time = 0
         self.cycler_rock_sound = load_wav('./bgm/cycler_rock_sound.wav')
         self.cycler_cliff_sound = load_wav('./bgm/cycler_cliff_sound.wav')
+        self.cycler_cycle = load_wav('./bgm/cycler_cycle.wav')
     def update(self):
         if self.speed_mode == True:
             self.item_speed = 2.0
@@ -344,10 +345,12 @@ class Cycler:
     def handle_collision(self, group, other):
         if self.invisibility_mode == False:
             if group == 'cycler:rock':
+                self.cycler_cycle = None
                 self.cycler_rock_sound.play()
                 game_world.delete_record_time()
                 self.die = True
             if group == 'cycler:cliff':
+                self.cycler_cycle = None
                 self.cycler_cliff_sound.play()
                 game_world.delete_record_time()
                 self.die = True
