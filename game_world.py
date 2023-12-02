@@ -4,7 +4,7 @@ records = []
 collision_pairs = {} # { 'player:rock' : [ [player], [rock1, rock2 ...] ]}
 record_sum = [[9999.0,9999.0,9999.0,9999.0] for _ in range(4)]
 item = [1,1,1]
-
+level = 0
 def add_object(o, depth=0):
     objects[depth].append(o)
 

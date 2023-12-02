@@ -3,11 +3,11 @@ main_file = 'main.py'# fill here
 
 # 데이타 파일들을 지정하세요.
 data_files = [
-
+'data.p'
 ]
 
 # 데이타가 들어있는 폴더들을 지정하세요.
 data_folders = [
-    'zombie', 'level1', 'level2', 'level3', 'resource'
+    'zombie', 'level1', 'level2', 'level3', 'resource', 'bgm'
 ]
 

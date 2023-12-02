@@ -5,7 +5,7 @@ import game_framework
 import game_world
 import howtoplay_mode
 from bgm.bgm_sound import Bgm_sound
-from level1 import cycling_mode
+from level1 import cycling_mode, cycler
 from level2 import swimming_mode
 from level3 import running_mode
 import rankingboard_mode
@@ -19,6 +19,8 @@ def init():
     image = load_image('./resource/title.png')
     bgm_sound = Bgm_sound('./bgm/title_bgm.mp3')
     button_select = load_wav('./bgm/button_select.wav')
+    game_world.level = 0
+
 def finish():
     game_world.clear()
     bgm_sound.bgm.stop()

@@ -162,6 +162,7 @@ def init():
     global use_invisibility_item
     global button_select1
     global button_select2
+    game_world.level = 1
     item_image1 = load_image('./resource/stamina.png')
     item_image2 = load_image('./resource/speedup.png')
     item_image3 = load_image('./resource/invisibility.png')
@@ -181,6 +182,7 @@ def init():
     use_invisibility_item = load_wav('./bgm/use_invisibility_item.wav')
     button_select1 = load_wav('./bgm/button_select.wav')
     button_select2 = load_wav('./bgm/button_select2.wav')
+
 def finish():
     bgm_sound.bgm.stop()
 

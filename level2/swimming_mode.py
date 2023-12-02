@@ -144,6 +144,7 @@ def init():
     global use_invisibility_item
     global button_select1
     global button_select2
+    game_world.level = 2
     item_image1 = load_image('./resource/stamina.png')
     item_image2 = load_image('./resource/speedup.png')
     item_image3 = load_image('./resource/invisibility.png')
